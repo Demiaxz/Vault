@@ -18,6 +18,11 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <activity
+            android:name="CourseListActivity"
+            android:label="@string/title_course_list_activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         </activity>
 
     </application>

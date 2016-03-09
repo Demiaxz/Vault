@@ -12,4 +12,11 @@
     tools:context="nl.hsleiden.vault.vault.start"
     tools:showIn="@layout/activity_start">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Haal cijfers"
+        android:id="@+id/cijfers"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

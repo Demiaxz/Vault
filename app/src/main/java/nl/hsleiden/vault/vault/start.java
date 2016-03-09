@@ -1,5 +1,6 @@
 package nl.hsleiden.vault.vault;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -33,6 +35,17 @@ public class start extends AppCompatActivity {
                 requestSubjects();
             }
         });
+
+        Button cijfers = (Button) findViewById(R.id.cijfers);
+        cijfers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Cijfers knop ingedrukt.", "Start CourseListActivity");
+                startActivity(new Intent(start.this, nl.hsleiden.vault.vault.List.CourseListActivity.class));
+            }
+        });
+
+
     }
     // ALLES WAT JE NODGI HEBT OM EEN REQUEST TE MAKEN
     private void requestSubjects(){
