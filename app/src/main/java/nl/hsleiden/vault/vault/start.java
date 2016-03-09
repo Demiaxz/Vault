@@ -23,8 +23,8 @@ public class start extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -36,41 +36,49 @@ public class start extends AppCompatActivity {
             }
         });
 
+        final int id = 5;
+
         Button cijfers = (Button) findViewById(R.id.cijfers);
         cijfers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Cijfers knop ingedrukt.", "Start CourseListActivity");
+                Snackbar sb = Snackbar.make(v, "Started", Snackbar.LENGTH_LONG);
                 startActivity(new Intent(start.this, nl.hsleiden.vault.vault.List.CourseListActivity.class));
+                sb.show();
+                Intent i = new Intent(start.this, nl.hsleiden.vault.vault.List.CourseListActivity.class);
+
+                i.putExtra("id", id);
+                startActivity(i);
             }
         });
-
-
-    }
-    // ALLES WAT JE NODGI HEBT OM EEN REQUEST TE MAKEN
-    private void requestSubjects(){
-        Type type = new TypeToken<List<Course>>(){}.getType();
+        // ALLES WAT JE NODGI HEBT OM EEN REQUEST TE MAKEN
+}
+    private void requestSubjects() {
+        Type type = new TypeToken<List<Course>>() {
+        }.getType();
         GsonRequest<List<Course>> request = new GsonRequest<List<Course>>(
                 "http://fuujokan.nl/subject_lijst.json", type, null,
                 new Response.Listener<List<Course>>() {
                     @Override
-                    public void onResponse(List<Course> response) { processRequestSucces(response); }
-                }, new Response.ErrorListener(){
+                    public void onResponse(List<Course> response) {
+                        processRequestSucces(response);
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error){ processRequestError(error);     }
+            public void onErrorResponse(VolleyError error) {
+                processRequestError(error);
+            }
         }
         );
         VolleyHelper.getInstance(this).addToRequestQueue(request);
     }
 
-    private void processRequestSucces(List<Course> subjects ){
-        Log.d("processRequestSucces","Natty.");
+    private void processRequestSucces(List<Course> subjects) {
+        Log.d("processRequestSucces", "Natty.");
     }
 
-    private void processRequestError(VolleyError error){
+    private void processRequestError(VolleyError error) {
         Log.d("processRequestError", "unNatty.");
     }
-
-
 }
-
