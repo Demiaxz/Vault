@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -76,6 +75,12 @@ public class start extends AppCompatActivity {
 
     private void processRequestSucces(List<Course> subjects) {
         Log.d("processRequestSucces", "Natty.");
+
+        //voor elke course in een aangereikte string doe ff rollen dan
+        for (Course e : subjects) {
+            Log.d("x:", String.valueOf(e));
+        }
+
     }
 
     private void processRequestError(VolleyError error) {
