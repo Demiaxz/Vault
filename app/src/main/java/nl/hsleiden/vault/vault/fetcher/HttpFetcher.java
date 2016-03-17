@@ -3,9 +3,12 @@ package nl.hsleiden.vault.vault.fetcher;
 /**
  * Created by Perseus on 16-03-16.
  */
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,6 +20,7 @@ import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -212,22 +216,205 @@ public class HttpFetcher {
         return doc;
     }
 
-    public static void getCijfers(Document parsedHTML) {
+    public static void getCijfers(Document parsedHTML) throws JSONException {
 
         String HTML = parsedHTML.toString();
-        String[] eersteSplit = HTML.split("<table class=\"OraTableContent\" cellpadding=\"1\" cellspacing=\"0\" border=\"0\" width=\"100%\" summary=\"Deze tabel toont een overzicht van je behaalde resultaten.\">\n" +
-                "                         <tbody>");
-        String[] tweedeSplit = eersteSplit[1].split("</tbody>\n" +
-                "                        </table></td>\n" +
+        String[] eersteSplit = HTML.split("<td><span id=\"ResultatenPerStudent\">\n" +
+                "                    <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" summary=\"\">");
+        String[] tweedeSplit = eersteSplit[1].split("</table></td>\n" +
                 "                      </tr>");
         System.out.println(tweedeSplit[0]);
 
         Document doc = Jsoup.parse(tweedeSplit[0]);
 
+        String dildo = doc.text();
+
+        String[] dildos = dildo.split("''");
+
+        System.out.println(dildos);
+
+        String wat = dildos[0];
+
+        System.out.println(wat);
+
+        doc = parsedHTML;
+
+        ArrayList<String> downServers = new ArrayList<>();
+        Elements table = doc.select("tbody").get(13).getElementsByClass("psbToonTekst"); //select the first table.
+
+        for (Element element : table){
+            System.out.println(element.text());
+        }
+
+//        Elements rows = table.select("tr");
+//
+//        for (int i = 0; i < rows.size(); i++) { //first row is the col names so skip it.
+//            Element row = rows.get(i);
+//            Elements cols = row.select("td");
+//
+//            if (cols.get(3).text().equals("Mutatiedatum")) {
+//                if (cols.get(7).text().equals("down"))
+//                    downServers.add(cols.get(5).text());
+//
+//                do {
+//                    if(i < rows.size() - 1)
+//                        i++;
+//                    row = rows.get(i);
+//                    cols = row.select("td");
+//                    if (cols.get(7).text().equals("down") && cols.get(3).text().equals("")) {
+//                        downServers.add(cols.get(5).text());
+//                    }
+//                    if(i == rows.size() - 1)
+//                        break;
+//                }
+//                while (cols.get(3).text().equals(""));
+//                i--; //if there is two Titan names consecutively.
+//            }
+//        }
+
         //maak een json object met als key de namen in de eerste tabel
+
+
+
         //deze bevinden zich in de tags <tr> <td>
         //tel de hoeveelheid rijen en add de null value tables ook mee in de list
         //ga nu door de resterende rijen en add de value's waar ze moeten komen
+
+
+        //ArrayList<String> vakken = new ArrayList<>();
+
+        ArrayList<String> cijfers = new ArrayList<>();
+        JSONObject vakkenTotaal = new JSONObject();
+
+
+        for (int i = 20 ; i < 35 ; i++){ //De eerste tabel waarin cijfers naar voren komen is <TR> 20. Er staan 15 rijen in deze tabel. Ik wil elk van deze rijen.
+            JSONObject vakData = new JSONObject();
+            Element cijferTabel = doc.select("tr").get(i); //Selecteer de eerste rij van de 15
+            //System.out.println(cijferTabel.text()); // print wat er in deze rij staat
+            for (int j = 0 ; j < 8 ; j++){ // In deze rij zijn er 7 kolommen die moeten worden weggeschreven.
+                //System.out.println(cijferTabel.getElementsByIndexEquals(j).toString());
+
+                if (j == 0){ //datum
+                    Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
+                    String[] datum = toetsdatum.getElementsByIndexEquals(0).text().split(" ");
+                    //System.out.println(datum[0]);
+                    try {
+                        vakData.put("toetsDatum", datum[0]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (j == 1){ //curcus
+                    Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
+                    String[] datum = toetsdatum.getElementsByIndexEquals(0).text().split(" ");
+                    //System.out.println(datum[0]);
+                    cijfers.add(datum[0]);
+                    try {
+                        vakkenTotaal.put(datum[0],new JSONObject());
+                        vakData.put("curcusCode",datum[0]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (j == 2){ //omschrijving
+                    Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
+                    String datum = toetsdatum.getElementsByIndexEquals(0).text();
+                    //System.out.println(datum);
+                    cijfers.add(datum);
+                    try {
+                        vakData.put("omschrijving",datum);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (j == 3){ //toetstype
+                    Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
+                    String datum = toetsdatum.getElementsByIndexEquals(0).text();
+                    //System.out.println(datum);
+                    cijfers.add(datum);
+                    try {
+                        vakData.put("toetsType",datum);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (j == 4){ //weging
+                    Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
+                    String datum = toetsdatum.getElementsByIndexEquals(0).text();
+                    //System.out.println(datum);
+                    cijfers.add(datum);
+                    try {
+                        vakData.put("weging",datum);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (j == 5){ //resultaat
+                    Element toetsdatum = cijferTabel.select("td").get(j+1); //Selecteer de eerste rij van de 15
+                    String datum = toetsdatum.getElementsByIndexEquals(0).text();
+                    //System.out.println(datum);
+                    cijfers.add(datum);
+                    try {
+                        vakData.put("cijfer",datum);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (j == 6){ //concept
+                    Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
+                    Elements datum = toetsdatum.getAllElements();
+                    try {
+                        //System.out.println(datum.get(3).text());
+                        cijfers.add("true");
+                        try {
+                            vakData.put("concept","true");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    catch (java.lang.IndexOutOfBoundsException e){
+                        //System.out.println("(niet concept)");
+                        cijfers.add("false");
+                        try {
+                            vakData.put("concept","false");
+                        } catch (JSONException x) {
+                            x.printStackTrace();
+                        }
+                    }
+                }
+                else if ( j == 7){ //mutatiedata
+                    Element toetsdatum = cijferTabel.select("td").get(j+1); //Selecteer de eerste rij van de 1
+                    String datum = toetsdatum.getElementsByIndexEquals(0).text();
+                    System.out.println(datum+"\n");
+                    try {
+                        vakData.put("mutatieDatum",datum);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }//end of j
+            //add this list to json
+            try {
+                vakkenTotaal.put(vakData.getString("curcusCode"),vakData);
+                System.out.println("Daar komt hij : ");
+                System.out.println(vakData.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }//end of i
+        //clear the list and prep for new
+
+
+
+
+//        for (Element element : cijferTabel) {
+//            System.out.println(element.text());
+//        }
+        //{"name":"IARCH","ects": "3","grade": "1","period": "1"}
+
+
         //pass de json naar een klasse die er shit mee gaat doen
         //schoon heel de klas op om die gunstiger te bewerkstellen
         //natty
