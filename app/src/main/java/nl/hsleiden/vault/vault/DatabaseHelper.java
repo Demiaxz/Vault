@@ -14,7 +14,7 @@ import android.provider.BaseColumns;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static SQLiteDatabase mSQLDB;
     private static DatabaseHelper mInstance;			// SINGLETON TRUC
-    public static final String dbName = "barometer.db";	// Naam van je DB
+    public static final String dbName = "Vault.db";	// Naam van je DB
     public static final int dbVersion = 1;				// Versie nr van je db.
 
     public DatabaseHelper(Context ctx) {				// De constructor doet niet veel meer dan ...
@@ -34,8 +34,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + DatabaseInfo.CourseTables.COURSE + " (" +
                         BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         DatabaseInfo.CourseColumn.NAME + " TEXT," + DatabaseInfo.CourseColumn.ECTS + " TEXT," +
-                        DatabaseInfo.CourseColumn.PERIOD + " TEXT," + DatabaseInfo.CourseColumn.GRADE + " TEXT);"
-        );
+                        DatabaseInfo.CourseColumn.PERIOD + " TEXT," + DatabaseInfo.CourseColumn.GRADE + " TEXT," +
+                        DatabaseInfo.CourseColumn.TESTDATE + " TEXT," + DatabaseInfo.CourseColumn.DESCRIPTION + " TEXT," +
+                        DatabaseInfo.CourseColumn.IMPACT + " TEXT," + DatabaseInfo.CourseColumn.CONCEPT + " TEXT," +
+                        DatabaseInfo.CourseColumn.MUTATIONDATE + " TEXT,");
     }
 
     @Override
