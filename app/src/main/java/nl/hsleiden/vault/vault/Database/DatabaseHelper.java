@@ -1,4 +1,4 @@
-package nl.hsleiden.vault.vault;
+package nl.hsleiden.vault.vault.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -52,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void insert(String table, String nullColumnHack, ContentValues values){
         mSQLDB.insert(table, nullColumnHack, values);
+        System.out.println("Added entry.");
     }
 
     public Cursor query(String table, String[] columns, String selection, String[] selectArgs, String groupBy, String having, String orderBy){

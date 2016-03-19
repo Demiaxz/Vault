@@ -16,6 +16,10 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import nl.hsleiden.vault.vault.Database.Course;
+import nl.hsleiden.vault.vault.Database.GsonRequest;
+import nl.hsleiden.vault.vault.Database.VolleyHelper;
+
 public class start extends AppCompatActivity {
 
     @Override

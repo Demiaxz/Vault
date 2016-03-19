@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import nl.hsleiden.vault.vault.Course;
+import nl.hsleiden.vault.vault.Database.Course;
 import nl.hsleiden.vault.vault.R;
 
 /**

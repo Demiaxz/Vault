@@ -4,6 +4,9 @@ package nl.hsleiden.vault.vault.fetcher;
  * Created by Perseus on 16-03-16.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import org.json.JSONException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,51 +32,20 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import nl.hsleiden.vault.vault.MainActivity;
+
 //class takes as input the username and password to return grade information.
 
-public class HttpFetcher {
+public class HttpFetcher implements Runnable {
 
-        static String username;
-        static String password;
+    static String username;
+    static String password;
+    static Context a;
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("Username?");
-        username = "s1087736";//new Scanner(System.in).next();
-        System.out.println("Pass?");
-        password = "Humanbu21422floop!!0";//new Scanner(System.in).next();
-
-        new HttpFetcher(username, password);
-    }
-
-    public HttpFetcher(String username, String password) throws Exception {
-        //Prepwork
-        TrustManager[] trustAllCerts = manageMe();
-        // Install the all-trusting trust manager
-        final SSLContext sc = SSLContext.getInstance("SSL");
-        sc.init(null, trustAllCerts, new java.security.SecureRandom());
-        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        // Create all-trusting host name verifier
-        HostnameVerifier allHostsValid = new HostnameVerifier() {
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-            }
-        };
-        // Declare non CA's approval
-        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-        // Cookie handling
-        CookieManager manager = new CookieManager();
-        manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-        CookieHandler.setDefault(manager);
-
-        getCijfers(
-                fetchFourth(
-                        fetchThird(
-                                fetchSecond(
-                                        fetchFirst(manager)
-                                )
-                        )
-                )
-        );
+    public HttpFetcher (String Nusername, String Npassword, Context a) throws Exception {
+        username = Nusername;
+        password = Npassword;
+        run();
     }
 
     protected static String getUsername() {
@@ -82,6 +54,10 @@ public class HttpFetcher {
 
     protected static String getPassword() {
         return password;
+    }
+
+    protected static Context getContext() {
+        return a.getApplicationContext();
     }
 
     public static TrustManager[] manageMe() {
@@ -188,7 +164,7 @@ public class HttpFetcher {
 
     public static CookieManager fetchThird(CookieManager manager) throws Exception {
         System.out.println("Opening third connection.");
-        URL url = new URL("https://studievolg.hsleiden.nl/student/AuthenticateUser.do?startUrl=Personalia.do&inPortal=&callDirect=&requestToken=1947286439a923285f8f56a35685d31e671f4710&gebruikersNaam=s1087736&wachtWoord=Humanbu21422floop%21%210&event=login");
+        URL url = new URL("https://studievolg.hsleiden.nl/student/AuthenticateUser.do?startUrl=Personalia.do&inPortal=&callDirect=&requestToken=1947286439a923285f8f56a35685d31e671f4710&gebruikersNaam="+getUsername()+"&wachtWoord="+getPassword()+"&event=login");
         HttpURLConnection secondCon = (HttpURLConnection) url.openConnection();
         secondCon.setReadTimeout(15000);
         secondCon.setConnectTimeout(15000);
@@ -297,61 +273,147 @@ public class HttpFetcher {
     }
 
     public static void getCijfers(Document parsedHTML) throws JSONException {
+        String testdate = "";
+        String curcus = "";
+        String omschrijving = "";
+        String toetstype = "";
+        String weging = "";
+        String resultaat = "";
+        String concept = "";
+        String mutatiedatum = "";
         System.out.println("Retrieved the goods.");
         Document doc = parsedHTML;
+
         Elements table = doc.select("tbody").get(13).getElementsByClass("psbToonTekst"); //select the first table.
         for (int i = 20 ; i < 35 ; i++){ //De eerste tabel waarin cijfers naar voren komen is <TR> 20. Er staan 15 rijen in deze tabel. Ik wil elk van deze rijen.
             Element cijferTabel = doc.select("tr").get(i); //Selecteer de eerste rij van de 15
             //System.out.println(cijferTabel.text()); // print wat er in deze rij staat
             for (int j = 0 ; j < 8 ; j++){ // In deze rij zijn er 7 kolommen die moeten worden weggeschreven.
                 //System.out.println(cijferTabel.getElementsByIndexEquals(j).toString());
+
                 if (j == 0){ //datum
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     String[] datum = toetsdatum.getElementsByIndexEquals(0).text().split(" ");
                     //System.out.println(datum[0]);
+                    testdate = datum[0];
+
                 }
                 else if (j == 1){ //curcus
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     String[] datum = toetsdatum.getElementsByIndexEquals(0).text().split(" ");
-                    System.out.print(datum[0]);
+                    //System.out.print(datum[0]);
+                    curcus = datum[0];
                 }
                 else if (j == 2){ //omschrijving
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     String datum = toetsdatum.getElementsByIndexEquals(0).text();
                     //System.out.println(datum);
+                    omschrijving = datum;
                 }
                 else if (j == 3){ //toetstype
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     String datum = toetsdatum.getElementsByIndexEquals(0).text();
                     //System.out.println(datum);
+                    toetstype = datum;
                 }
                 else if (j == 4){ //weging
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     String datum = toetsdatum.getElementsByIndexEquals(0).text();
                     //System.out.println(datum);
+                    weging = datum;
                 }
                 else if (j == 5){ //resultaat
                     Element toetsdatum = cijferTabel.select("td").get(j+1); //Selecteer de eerste rij van de 15
                     String datum = toetsdatum.getElementsByIndexEquals(0).text();
-                    System.out.println(" "+datum+"\n");
+                    //System.out.println(" "+datum+"\n");
+                    resultaat = datum;
                 }
                 else if (j == 6){ //concept
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     Elements datum = toetsdatum.getAllElements();
                     try {
                         //System.out.println(datum.get(3).text());
+                        concept = "concept";
                     }
                     catch (java.lang.IndexOutOfBoundsException e) {
                         //System.out.println("(niet concept)");
+                        concept = "niet concept";
                     }
                 }
                 else if ( j == 7){ //mutatiedata
                     Element toetsdatum = cijferTabel.select("td").get(j+1); //Selecteer de eerste rij van de 1
                     String datum = toetsdatum.getElementsByIndexEquals(0).text();
                     //System.out.println(datum+"\n");
+                    mutatiedatum = datum;
                 }
 
             }//end of j
+            //System.out.println("Newest fetch : "+curcus+resultaat);
+
+            try {
+                //System.out.println(MainActivity.getContext());
+                editRegion(MainActivity.getContext(), curcus, resultaat);
+                //System.out.println("Current list. "+MainActivity.getContext().getSharedPreferences("vakData",0).getAll().toString());
+                System.out.println(curcus+" Toegevoegd aan SP.");
+            }
+
+            catch (NullPointerException e) {
+                System.out.println("Something went wrong.");
+            }
+//            System.out.println(a.getApplicationContext().databaseList().toString());
+//            sharedPrefference.getVakData(a.getApplicationContext()).edit().putString(curcus,resultaat).commit();
+
+
         }//end of i
     }
+
+    public static void editRegion(Context ctx, String region, String sregion) {
+        SharedPreferences settings = ctx.getSharedPreferences("vakData",0);
+        //System.out.println(settings.getAll().toString());
+        SharedPreferences.Editor ed = settings.edit();
+        ed.putString(region,sregion);
+        ed.commit();
+    }
+    @Override
+    public void run (){
+        //Prepwork
+        TrustManager[] trustAllCerts = manageMe();
+        // Install the all-trusting trust manager
+        final SSLContext sc;
+        try {
+            sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        // Create all-trusting host name verifier
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+        // Declare non CA's approval
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        // Cookie handling
+        CookieManager manager = new CookieManager();
+        manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(manager);
+
+        try {
+            getCijfers(
+                    fetchFourth(
+                            fetchThird(
+                                    fetchSecond(
+                                            fetchFirst(manager)
+                                    )
+                            )
+                    )
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+

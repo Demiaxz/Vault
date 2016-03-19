@@ -1,4 +1,4 @@
-package nl.hsleiden.vault.vault;
+package nl.hsleiden.vault.vault.Database;
 
 import java.io.Serializable;
 

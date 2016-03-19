@@ -1,4 +1,4 @@
-package nl.hsleiden.vault.vault;
+package nl.hsleiden.vault.vault.Database;
 
 /**
  * Created by Perseus on 09-03-16.

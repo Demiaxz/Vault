@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.hsleiden.vault.vault.Course;
+import nl.hsleiden.vault.vault.Database.Course;
 import nl.hsleiden.vault.vault.R;
 
 public class CourseListActivity extends AppCompatActivity {
