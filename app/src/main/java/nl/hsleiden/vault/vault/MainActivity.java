@@ -1,9 +1,11 @@
 package nl.hsleiden.vault.vault;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import nl.hsleiden.vault.vault.fetcher.HttpFetcher;
@@ -39,9 +41,19 @@ public class MainActivity extends AppCompatActivity {
             //Onderstaand statement geeft het cijfer van een vak terug.
             //System.out.println(sharedPrefference.getVakData(getContext()).getString("ICOMMH", ""));
 
+            //HAALT FOTO OP
+            final  Bitmap pasfoto = HttpFetcher.fetchPhoto();
+            //CODE VOOR INSTELLEN FOTO
+            ImageView mImg;
+            mImg = (ImageView) findViewById(R.id.imageView);
+            mImg.setImageBitmap(pasfoto);
+            mImg.invalidate();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
 
     }
 

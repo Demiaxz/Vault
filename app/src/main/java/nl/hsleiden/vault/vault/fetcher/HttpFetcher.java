@@ -6,6 +6,8 @@ package nl.hsleiden.vault.vault.fetcher;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import org.json.JSONException;
 import org.jsoup.Jsoup;
@@ -14,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -41,6 +44,7 @@ public class HttpFetcher implements Runnable {
     static String username;
     static String password;
     static Context a;
+    static CookieManager cookieManager = null;
 
     public HttpFetcher (String Nusername, String Npassword, Context a) throws Exception {
         username = Nusername;
@@ -58,6 +62,14 @@ public class HttpFetcher implements Runnable {
 
     protected static Context getContext() {
         return a.getApplicationContext();
+    }
+
+    protected static CookieManager getCookieManager(){
+        return cookieManager;
+    }
+
+    protected static void setCookieManager(CookieManager newCookieManager){
+        cookieManager = newCookieManager;
     }
 
     public static TrustManager[] manageMe() {
@@ -269,7 +281,89 @@ public class HttpFetcher implements Runnable {
 
         String html = response;
         Document doc = Jsoup.parse(html);
+        setCookieManager(manager);
         return doc;
+    }
+
+    public static Bitmap fetchPhoto() throws Exception {
+        System.out.println("Opening photo connection.");
+        URL url = new URL("https://studievolg.hsleiden.nl/student/AuthenticateUser.do");
+        HttpURLConnection photoCon = (HttpURLConnection) url.openConnection();
+        photoCon.setReadTimeout(15000);
+        photoCon.setConnectTimeout(15000);
+        photoCon.setRequestMethod("GET");
+        photoCon.setDoInput(true);
+
+        //Give me information, for now.
+        int status = photoCon.getResponseCode();
+
+        if (photoCon.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            System.out.println("Connection succes.");
+        }
+        if (photoCon.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            System.out.println("Connection failed.");
+        }
+
+        boolean debug = false;
+
+        if (debug) {
+            System.out.println("Status = " + status);
+            String key;
+            System.out.println("Headers-------start-----");
+            for (int i = 1; (key = photoCon.getHeaderFieldKey(i)) != null; i++) {
+                System.out.println(key + ":" + photoCon.getHeaderField(i));
+            }
+            System.out.println(photoCon.getContent());
+
+            System.out.println("Closing photo connection.");
+        }
+
+        CookieStore cookieJar = getCookieManager().getCookieStore();
+        List<HttpCookie> cookies =
+                cookieJar.getCookies();
+
+        if (debug) {
+            for (HttpCookie cookie : cookies) {
+                System.out.println("CookieHandler retrieved cookie: " + cookie);
+            }
+        }
+
+        String response = "";
+        String lines;
+        BufferedReader br = new BufferedReader(new InputStreamReader(photoCon.getInputStream()));
+        while ((lines = br.readLine()) != null) {
+            response += lines;
+        }
+        //System.out.println(response.toString());
+        //System.out.println("HOERENKOTS");
+
+        String html = response;
+        Document doc = Jsoup.parse(html);
+        Elements table = doc.select("table").get(13).getAllElements(); //select the first table.\
+        //System.out.println(table.toString());
+        //System.out.println("cancer");
+
+        Element foto = table.get(8);
+        //System.out.println(table.toString());
+        //System.out.println("----------------------------");
+        String id = table.text();
+        String[] ids = id.split("Studentnummer ");
+        String[] echtId = ids[1].split(" Voornamen");
+        String echtechtId = echtId[0];
+
+        Elements absHref = foto.getElementById(echtechtId).getAllElements();
+        String downloadLink = absHref.attr("href");
+        //out.println(downloadLink);
+
+        URL urlski = new URL("https://studievolg.hsleiden.nl/student/"+downloadLink);
+        HttpURLConnection conn = (HttpURLConnection) urlski.openConnection();
+
+        InputStream in = conn.getInputStream();
+        Bitmap bitmap = BitmapFactory.decodeStream(in);
+        in.close();
+
+        return bitmap;
+
     }
 
     public static void getCijfers(Document parsedHTML) throws JSONException {
@@ -332,7 +426,7 @@ public class HttpFetcher implements Runnable {
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     Elements datum = toetsdatum.getAllElements();
                     try {
-                        //System.out.println(datum.get(3).text());
+                        //System.out.println(datum.gwaet(3).text());
                         concept = "concept";
                     }
                     catch (java.lang.IndexOutOfBoundsException e) {
@@ -407,6 +501,7 @@ public class HttpFetcher implements Runnable {
                             )
                     )
             );
+
         } catch (Exception e) {
             e.printStackTrace();
         }
