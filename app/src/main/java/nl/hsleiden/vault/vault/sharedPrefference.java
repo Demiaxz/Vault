@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 public class sharedPrefference {
     private static String PREF_DATA = "vakData";
     private static String USER_PIC = "userPic";
+    private static String LOGINDATA = "loginData";
 
     public static SharedPreferences getVakData(Context c){
         return c.getSharedPreferences(PREF_DATA,0);

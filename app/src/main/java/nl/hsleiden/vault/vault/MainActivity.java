@@ -1,6 +1,7 @@
 package nl.hsleiden.vault.vault;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -29,10 +30,13 @@ public class MainActivity extends AppCompatActivity {
         //standaard shit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //get some shit
+        Bundle b = getIntent().getExtras();
 
         //Dit moet later de input worden vanaf het betreffende venster.
-        String username = "";
-        String password = "";
+        String username = b.getString("username");
+        String password = b.getString("password");
 
         //Try Catch doordat er verschillende shit fout kan gaan.
         try {
@@ -49,8 +53,26 @@ public class MainActivity extends AppCompatActivity {
             mImg.setImageBitmap(pasfoto);
             mImg.invalidate();
 
-        } catch (Exception e) {
+            Intent homepage = new Intent(MainActivity.this, menu.class);
+            startActivity(homepage);
+            finish();
+        }
+        catch (IndexOutOfBoundsException e){
+            getContext().getSharedPreferences("loginData",0).edit().clear().commit();
+            Intent intent = new Intent(getContext(), start.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Bundle intentLogin = new Bundle();
+            intentLogin.putBoolean("login", true); //login is verkeerd gegaan
+            intent.putExtras(intentLogin); //Put your id to your next Intent
+            startActivity(intent);
+            finish();
+
+
+    }
+        catch (Exception e){
             e.printStackTrace();
+            System.out.println("Verkeerde login.");
+            getContext().getSharedPreferences("loginData",0).edit().clear().commit();
+            getContext().startActivity(new Intent(getContext(), start.class));
         }
 
 

@@ -61,7 +61,7 @@ public class HttpFetcher implements Runnable {
     }
 
     protected static Context getContext() {
-        return a.getApplicationContext();
+        return MainActivity.getContext().getApplicationContext();
     }
 
     protected static CookieManager getCookieManager(){
@@ -334,26 +334,27 @@ public class HttpFetcher implements Runnable {
         while ((lines = br.readLine()) != null) {
             response += lines;
         }
-        //System.out.println(response.toString());
+        System.out.println(response.toString());
         //System.out.println("HOERENKOTS");
 
         String html = response;
         Document doc = Jsoup.parse(html);
         Elements table = doc.select("table").get(13).getAllElements(); //select the first table.\
-        //System.out.println(table.toString());
+        System.out.println(table.toString());
         //System.out.println("cancer");
 
         Element foto = table.get(8);
-        //System.out.println(table.toString());
-        //System.out.println("----------------------------");
+        System.out.println(table.toString());
+        System.out.println("----------------------------");
         String id = table.text();
         String[] ids = id.split("Studentnummer ");
         String[] echtId = ids[1].split(" Voornamen");
         String echtechtId = echtId[0];
+        System.out.println(echtechtId);
 
         Elements absHref = foto.getElementById(echtechtId).getAllElements();
         String downloadLink = absHref.attr("href");
-        //out.println(downloadLink);
+        System.out.println(downloadLink);
 
         URL urlski = new URL("https://studievolg.hsleiden.nl/student/"+downloadLink);
         HttpURLConnection conn = (HttpURLConnection) urlski.openConnection();
@@ -404,13 +405,15 @@ public class HttpFetcher implements Runnable {
                     //System.out.println(datum);
                     omschrijving = datum;
                 }
-                else if (j == 3){ //toetstype
-                    Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
-                    String datum = toetsdatum.getElementsByIndexEquals(0).text();
-                    //System.out.println(datum);
-                    toetstype = datum;
-                }
-                else if (j == 4){ //weging
+                   else if (j == 3) { //toetstype
+                        Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
+                        String datum = toetsdatum.getElementsByIndexEquals(0).text();
+                        //System.out.println(datum);
+                        toetstype = datum;
+                    }
+
+
+               else if (j == 4){ //weging
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     String datum = toetsdatum.getElementsByIndexEquals(0).text();
                     //System.out.println(datum);

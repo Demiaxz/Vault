@@ -2,12 +2,13 @@ package nl.hsleiden.vault.vault;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,36 +27,77 @@ public class start extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                requestSubjects();
+        //check if there is saved loginData, if there's not :
+        if (getSharedPreferences("loginData",0).getAll().isEmpty()){
+
+
+            Button cijfers = (Button) findViewById(R.id.cijfers);
+            cijfers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Cijfers knop ingedrukt.", "Start CourseListActivity");
+                    Snackbar sb = Snackbar.make(v, "Attempting log in.", Snackbar.LENGTH_LONG);
+                    sb.show();
+                    TextView txtView = (TextView)findViewById(R.id.usernameField);
+                    TextView txtoass = (TextView)findViewById(R.id.passwordField);
+                    System.out.println(txtView.getText());
+                    System.out.println(txtoass.getText());
+
+                    Intent intent = new Intent(start.this, MainActivity.class);
+                    Bundle b = new Bundle();
+
+                    CheckBox remember = (CheckBox) findViewById(R.id.rememberMe);
+
+                    if (remember.isChecked()){
+                        getSharedPreferences("loginData",0).edit().putString("username",((TextView) findViewById(R.id.usernameField)).getText().toString()).commit();
+                        getSharedPreferences("loginData",0).edit().putString("password",((TextView) findViewById(R.id.passwordField)).getText().toString()).commit();
+                        b.putString("username", getSharedPreferences("loginData",0).getString("username","s000000")); //Your id
+                        b.putString("password", getSharedPreferences("loginData", 0).getString("password", "non")); //Your id
+                        intent.putExtras(b); //Put your id to your next Intent
+                        startActivity(intent);
+                        finish();
+                        b.clear();
+                    }
+
+                    else {
+                        b.putString("username", ((TextView) findViewById(R.id.usernameField)).getText().toString()); //Your id
+                        b.putString("password", ((TextView) findViewById(R.id.passwordField)).getText().toString()); //Your pass
+                        intent.putExtras(b); //Put your id to your next Intent
+
+                        startActivity(intent);
+
+                        finish();
+                        b.clear();
+                    }
+                }
+            });
+            try {
+                if (getIntent().getBooleanExtra("login",false)){
+                    Snackbar sb = Snackbar.make(findViewById(android.R.id.content), "Wrong combination of login", Snackbar.LENGTH_LONG);
+                    sb.show();
+                }
             }
-        });
-
-        final int id = 5;
-
-        Button cijfers = (Button) findViewById(R.id.cijfers);
-        cijfers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Cijfers knop ingedrukt.", "Start CourseListActivity");
-                Snackbar sb = Snackbar.make(v, "Started", Snackbar.LENGTH_LONG);
-                startActivity(new Intent(start.this, nl.hsleiden.vault.vault.List.CourseListActivity.class));
+            catch (NullPointerException er){
+                er.printStackTrace();
+                Snackbar sb = Snackbar.make(findViewById(android.R.id.content), "Welcome, student.", Snackbar.LENGTH_LONG);
                 sb.show();
-                Intent i = new Intent(start.this, nl.hsleiden.vault.vault.List.CourseListActivity.class);
-
-                i.putExtra("id", id);
-                startActivity(i);
             }
-        });
-        // ALLES WAT JE NODGI HEBT OM EEN REQUEST TE MAKEN
+        }
+        else {
+            Intent intent = new Intent(start.this, MainActivity.class);
+            Bundle b = new Bundle();
+            System.out.println(getSharedPreferences("loginData", 0).getString("username", "s000000"));
+            System.out.println(getSharedPreferences("loginData", 0).getString("password", "non"));
+            b.putString("username", getSharedPreferences("loginData",0).getString("username","s000000")); //Your id
+            b.putString("password", getSharedPreferences("loginData", 0).getString("password", "non")); //Your id
+            intent.putExtras(b); //Put your id to your next Intent
+            startActivity(intent);
+            finish();
+            b.clear();
+        }
+
+
 }
     private void requestSubjects() {
         Type type = new TypeToken<List<Course>>() {
