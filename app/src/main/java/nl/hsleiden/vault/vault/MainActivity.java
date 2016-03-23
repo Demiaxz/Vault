@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import nl.hsleiden.vault.vault.fetcher.HttpFetcher;
@@ -46,16 +45,20 @@ public class MainActivity extends AppCompatActivity {
             //System.out.println(sharedPrefference.getVakData(getContext()).getString("ICOMMH", ""));
 
             //HAALT FOTO OP
-            final  Bitmap pasfoto = HttpFetcher.fetchPhoto();
-            //CODE VOOR INSTELLEN FOTO
-            ImageView mImg;
-            mImg = (ImageView) findViewById(R.id.imageView);
-            mImg.setImageBitmap(pasfoto);
-            mImg.invalidate();
+            try{
+                final  Bitmap pasfoto = HttpFetcher.fetchPhoto();
 
-            Intent homepage = new Intent(MainActivity.this, menu.class);
-            startActivity(homepage);
-            finish();
+                Intent homepage = new Intent(MainActivity.this, menu.class);
+
+                //homepage.putExtra("pasfoto", pasfoto);
+                startActivity(homepage);
+                finish();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
+
         }
         catch (IndexOutOfBoundsException e){
             getContext().getSharedPreferences("loginData",0).edit().clear().commit();
