@@ -10,6 +10,7 @@ public class sharedPrefference {
     private static String PREF_DATA = "vakData";
     private static String USER_PIC = "userPic";
     private static String LOGINDATA = "loginData";
+    private static String USERDATA = "userData";
 
     public static SharedPreferences getVakData(Context c){
         return c.getSharedPreferences(PREF_DATA,0);

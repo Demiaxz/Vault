@@ -352,6 +352,13 @@ public class HttpFetcher implements Runnable {
         String echtechtId = echtId[0];
         System.out.println(echtechtId);
 
+        String meuk = table.text();
+        String[] meuk1 = meuk.split("Naam ");
+        String[] meuk2 = meuk1[1].split(" Studentnummer");
+        String voornaam = meuk2[0];
+        System.out.println(voornaam);
+        getContext().getSharedPreferences("userData",0).edit().putString("voornaam",voornaam).commit();
+        getContext().getSharedPreferences("userData",0).edit().putString("snr",echtechtId).commit();
         Elements absHref = foto.getElementById(echtechtId).getAllElements();
         String downloadLink = absHref.attr("href");
         System.out.println(downloadLink);

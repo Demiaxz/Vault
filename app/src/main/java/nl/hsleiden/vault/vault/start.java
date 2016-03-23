@@ -73,7 +73,7 @@ public class start extends AppCompatActivity {
                 }
             });
             try {
-                if (getIntent().getBooleanExtra("login",false)){
+                if (getIntent().getExtras().getBoolean("login")){
                     Snackbar sb = Snackbar.make(findViewById(android.R.id.content), "Wrong combination of login", Snackbar.LENGTH_LONG);
                     sb.show();
                 }

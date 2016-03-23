@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent homepage = new Intent(MainActivity.this, menu.class);
 
-                //homepage.putExtra("pasfoto", pasfoto);
+                homepage.putExtra("pasfoto", pasfoto);
                 startActivity(homepage);
                 finish();
             }

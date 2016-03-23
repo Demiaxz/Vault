@@ -1,5 +1,6 @@
 package nl.hsleiden.vault.vault;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import nl.hsleiden.vault.vault.fetcher.HttpFetcher;
 
@@ -83,6 +85,19 @@ public class menu extends AppCompatActivity
         mImg = (ImageView) findViewById(R.id.profilePicture);
         mImg.setImageBitmap(getCircleBitmap(bitmap));
         mImg.invalidate();
+
+        //code voor instellen van de gegevens
+        // globally
+        TextView myAwesomeTextView = (TextView)findViewById(R.id.voornaam);
+        TextView myAwesomeTextView2 = (TextView)findViewById(R.id.emailadress);
+        //in your OnCreate() method
+        myAwesomeTextView.setText(getApplicationContext().getSharedPreferences("userData", 0).getString("voornaam", "Geen voornaam gevonden."));
+        String email = getApplicationContext().getSharedPreferences("userData",0).getString("snr","Geen email gevonden.");
+        if (email.length() < 11) {
+            email = email + "@student.hsleiden.nl";
+        }
+        myAwesomeTextView2.setText(email);
+
         return true;
     }
 
@@ -111,14 +126,10 @@ public class menu extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        }  else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.logout) {
+            logOut();
         }
 
 
@@ -150,5 +161,16 @@ public class menu extends AppCompatActivity
         bitmap.recycle();
 
         return output;
+    }
+
+    private void logOut(){
+        getApplicationContext().getSharedPreferences("loginData",0).edit().clear().commit();
+        Intent intent = new Intent(getApplicationContext(), start.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle intentLogin = new Bundle();
+        intentLogin.putBoolean("login", true); //login is verkeerd ge
+        intentLogin.putBoolean("logout", true);
+        intent.putExtras(intentLogin); //Put your id to your next Intent
+        startActivity(intent);
+        finish();
     }
 }
