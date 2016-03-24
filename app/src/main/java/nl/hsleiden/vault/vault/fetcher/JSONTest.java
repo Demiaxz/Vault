@@ -8,7 +8,7 @@ import org.json.JSONObject;
  * Created by Perseus on 17-03-16.
  */
 public class JSONTest {
-    public static void main(String[] args) throws JSONException {
+    public JSONTest() {
 
         JSONObject student1 = new JSONObject();
         try {
@@ -43,8 +43,11 @@ public class JSONTest {
         jsonArray.put(student2);
 
         JSONObject studentsObj = new JSONObject();
-        studentsObj.put("Students", jsonArray);
-
+        try {
+            studentsObj.put("Students", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         String jsonStr = studentsObj.toString();
