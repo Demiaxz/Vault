@@ -10,7 +10,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -20,11 +19,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import nl.hsleiden.vault.vault.fetcher.HttpFetcher;
+//import nl.hsleiden.vault.vault.fetcher.HttpFetcher;
 
 public class menu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,14 +33,13 @@ public class menu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //Welkomst bericht.
+        if (getIntent().getExtras().getBoolean("loggedIn")){
+            String message = "Welcome, "+getSharedPreferences("userData", 0).getString("voornaam","Geen naam gevonden.")+".";
+            Snackbar sb = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+            sb.show();
+            getIntent().getExtras().clear();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,20 +67,19 @@ public class menu extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
 
-
-        //pasfoto in menu
-        Bitmap bitmap = null;
-        try {
-            bitmap = (Bitmap) HttpFetcher.fetchPhoto();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //CODE VOOR INSTELLEN FOTO
-        ImageView mImg;
-        mImg = (ImageView) findViewById(R.id.profilePicture);
-        mImg.setImageBitmap(getCircleBitmap(bitmap));
-        mImg.invalidate();
+//        //pasfoto in menu
+//        Bitmap bitmap = null;
+//        try {
+//            bitmap = (Bitmap) HttpFetcher.fetchPhoto();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        //CODE VOOR INSTELLEN FOTO
+//        ImageView mImg;
+//        mImg = (ImageView) findViewById(R.id.profilePicture);
+//        mImg.setImageBitmap(getCircleBitmap(bitmap));
+//        mImg.invalidate();
 
         //code voor instellen van de gegevens
         // globally
@@ -167,7 +162,6 @@ public class menu extends AppCompatActivity
         getApplicationContext().getSharedPreferences("loginData",0).edit().clear().commit();
         Intent intent = new Intent(getApplicationContext(), start.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle intentLogin = new Bundle();
-        intentLogin.putBoolean("login", true); //login is verkeerd ge
         intentLogin.putBoolean("logout", true);
         intent.putExtras(intentLogin); //Put your id to your next Intent
         startActivity(intent);
