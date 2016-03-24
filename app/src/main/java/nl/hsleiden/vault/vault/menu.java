@@ -19,7 +19,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import nl.hsleiden.vault.vault.fetcher.PicFetch;
 
 //import nl.hsleiden.vault.vault.fetcher.HttpFetcher;
 
@@ -67,19 +70,19 @@ public class menu extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
 
-//        //pasfoto in menu
-//        Bitmap bitmap = null;
-//        try {
-//            bitmap = (Bitmap) HttpFetcher.fetchPhoto();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        //CODE VOOR INSTELLEN FOTO
-//        ImageView mImg;
-//        mImg = (ImageView) findViewById(R.id.profilePicture);
-//        mImg.setImageBitmap(getCircleBitmap(bitmap));
-//        mImg.invalidate();
+        //pasfoto in menu
+        Bitmap bitmap = null;
+        try {
+            bitmap = (Bitmap) new PicFetch(getIntent().getExtras().getString("username","0"),getIntent().getExtras().getString("password","0"),getApplicationContext()).runAuth();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //CODE VOOR INSTELLEN FOTO
+        ImageView mImg;
+        mImg = (ImageView) findViewById(R.id.profilePicture);
+        mImg.setImageBitmap(getCircleBitmap(bitmap));
+        mImg.invalidate();
 
         //code voor instellen van de gegevens
         // globally

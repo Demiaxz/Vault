@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         //Try Catch doordat er verschillende shit fout kan gaan.
         if (new AuthFetch(b.getString("username"),b.getString("password"),getApplicationContext()).runAuth()) {
-            Intent homepage = new Intent(MainActivity.this, menu.class).putExtra("loggedIn",true);
+            Intent homepage = new Intent(MainActivity.this, menu.class).putExtra("loggedIn",true).putExtra("username",b.getString("username")).putExtra("password",b.getString("password"));
             startActivity(homepage);
             finish();
         }
