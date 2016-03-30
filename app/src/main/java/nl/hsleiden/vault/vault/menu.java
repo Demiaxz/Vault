@@ -1,4 +1,5 @@
 package nl.hsleiden.vault.vault;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -50,15 +51,17 @@ public class menu extends AppCompatActivity
         }
 
         try {
+            //Fetch the download link for the picture and store this in a bitmap and pass it
             bitmap = (Bitmap) new PicFetch(getIntent().getExtras().getString("username","0"),getIntent().getExtras().getString("password","0"),getApplicationContext()).runAuth();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         try {
+            //create me a nested json with every grade you can fetch.
             stashGoods k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username","0"),getIntent().getExtras().getString("password","0"),getApplicationContext()).runAuth());
+            //Object k has getGradeList, wich is a list of all the grades stored, with key = coursename and value = another json object with multiple key's.
+            //we need to create a listview that uses this information.
             System.out.println(k.getGradeList().getJSONObject("IMTUE").get("mutatiedatum").toString());
-            System.out.println("hoi");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,9 +92,6 @@ public class menu extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
 
-
-
-
         //CODE VOOR INSTELLEN FOTO
         ImageView mImg;
         mImg = (ImageView) findViewById(R.id.profilePicture);
@@ -109,7 +109,6 @@ public class menu extends AppCompatActivity
             email = email + "@student.hsleiden.nl";
         }
         myAwesomeTextView2.setText(email);
-
         return true;
     }
 
@@ -134,11 +133,11 @@ public class menu extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.dashboard) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        }  else if (id == R.id.nav_share) {
+        } else if (id == R.id.grades) {
+            grades();
+        }  else if (id == R.id.about) {
 
         } else if (id == R.id.logout) {
             logOut();
@@ -191,5 +190,11 @@ public class menu extends AppCompatActivity
         intent.putExtras(intentLogin); //Put your id to your next Intent
         startActivity(intent);
         finish();
+    }
+
+    private void grades(){
+        Intent intent = new Intent(getApplicationContext(), grades.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        onStop();
     }
 }

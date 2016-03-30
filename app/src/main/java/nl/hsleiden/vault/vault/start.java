@@ -24,6 +24,8 @@ public class start extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        setTitle("Login");
+
 
         //----------------------------------------------------------------------------------------------------------------------------//
         try { //geeft exception als de intent niet bestaat, oftewel wanneer hij niet eerder is aangeroepen.
