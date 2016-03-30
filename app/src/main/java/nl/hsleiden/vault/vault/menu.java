@@ -1,5 +1,7 @@
 package nl.hsleiden.vault.vault;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,6 +28,7 @@ import org.jsoup.nodes.Document;
 
 import nl.hsleiden.vault.vault.fetcher.DataFetch;
 import nl.hsleiden.vault.vault.fetcher.PicFetch;
+import nl.hsleiden.vault.vault.fragments.testFragment;
 
 //import nl.hsleiden.vault.vault.fetcher.HttpFetcher;
 
@@ -41,6 +44,7 @@ public class menu extends AppCompatActivity
         setContentView(R.layout.activity_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Vault - Dashboard");
 
         //Welkomst bericht.
         if (getIntent().getExtras().getBoolean("loggedIn")){
@@ -134,11 +138,11 @@ public class menu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.dashboard) {
-            // Handle the camera action
+            showDash();
         } else if (id == R.id.grades) {
             grades();
         }  else if (id == R.id.about) {
-
+            test();
         } else if (id == R.id.logout) {
             logOut();
         }
@@ -196,5 +200,25 @@ public class menu extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(), grades.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         onStop();
+    }
+
+    private void test(){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        testFragment fragment = new testFragment();
+        fragment.getView();
+        fragmentTransaction.add(R.id.fragmentContainer, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void showDash(){
+        setTitle("Vault - Dashboard");
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        testFragment fragment = new testFragment();
+        fragment.getView();
+        fragmentTransaction.add(R.id.fragmentContainer, fragment);
+        fragmentTransaction.commit();
     }
 }
