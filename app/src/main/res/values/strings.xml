@@ -12,4 +12,27 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- hier staan alle courses als string -->
+
+    <string name="Course1">IARCH</string>
+    <string name="Course2">IIBPM</string>
+    <string name="Course3">IHBO</string>
+    <string name="Course4">IOPR1</string>
+    <string name="Course5">INET</string>
+    <string name="Course6">IWDR</string>
+    <string name="Course7">IRDB</string>
+    <string name="Course8">IIBUI</string>
+    <string name="Course9">IPRODAM</string>
+    <string name="Course10">IPROMEDT</string>
+    <string name="Course11">IMUML</string>
+    <string name="Course12">IOPR2</string>
+    <string name="Course13">IFIT</string>
+    <string name="Course14">IPOFIT</string>
+    <string name="Course15">IPOSE</string>
+    <string name="Course16">IIPXXXX</string>
+    <string name="Course17">IPROV</string>
+    <string name="Course18">ICOMMP</string>
+    <string name="Course19">ISLP</string>
+
 </resources>
