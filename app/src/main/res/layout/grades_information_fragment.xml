@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:id="@+id/gradesInformationLayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Curcus naam"
+        android:id="@+id/curcus_name"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Docent: "
+        android:id="@+id/curcus_docent"
+
+        android:layout_margin="16dp"
+        android:layout_below="@+id/curcus_name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:background="#15135e"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:padding="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Omschrijving:"
+        android:id="@+id/curcus_omschrijving"
+
+        android:layout_margin="16dp"
+        android:layout_below="@+id/curcus_docent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:background="#15135e"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:padding="5dp"/>
+
+</RelativeLayout>

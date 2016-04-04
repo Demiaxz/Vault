@@ -6,12 +6,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+
 /**
  * Created by Perseus on 24-03-16.
  */
 public class stashGoods {
     JSONObject gradeDetails = new JSONObject();
     JSONObject gradeList = new JSONObject();
+    ArrayList<String> nameList = new ArrayList<>();
 
     public stashGoods(Document document) {
 
@@ -78,11 +81,11 @@ public class stashGoods {
                     Elements datum = toetsdatum.getAllElements();
                     try {
                         //System.out.println(datum.gwaet(3).text());
-                        concept = "concept";
+                        concept = "op concept";
                     }
                     catch (java.lang.IndexOutOfBoundsException e) {
                         //System.out.println("(niet concept)");
-                        concept = "niet concept";
+                        concept = "niet langer op concept";
                     }
                 }
                 else if ( j == 7){ //mutatiedata
@@ -99,14 +102,21 @@ public class stashGoods {
                 try {
                     JSONObject x = new JSONObject();
                     x.put("testdate", testdate);
-                    x.put("curcus", curcus);
+                    x.put("curcus", curcus+" "+toetstype);
                     x.put("omschrijving", omschrijving);
                     x.put("toetstype", toetstype);
                     x.put("weging", weging);
                     x.put("resultaat", resultaat);
                     x.put("concept", concept);
                     x.put("mutatiedatum", mutatiedatum);
-                    getGradeList().put(curcus, x);
+
+                    String verhaal = curcus + " is op "+ testdate+" afgenomen als een "+toetstype+", en weegt voor:"+weging+". Jouw cijfer, "+resultaat+", staat "+concept+
+                            ". De datum waarop dit in osiris is verwerkt is: "+mutatiedatum;
+
+                    x.put("verhaal",verhaal);
+
+                    getGradeList().put(curcus+" "+toetstype, x);
+                    nameList.add(curcus+" "+toetstype);
                 }
                 catch (JSONException e){
                     e.printStackTrace();
@@ -132,6 +142,10 @@ public class stashGoods {
 
     public JSONObject getGradeList() {
         return gradeList;
+    }
+
+    public ArrayList<String> getNameList() {
+        return nameList;
     }
 }
 

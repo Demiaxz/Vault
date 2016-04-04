@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight=".23"
+            android:id="@+id/imageView"
+            android:src="@drawable/logoleiden"
+            android:paddingTop="5dp"
+            android:background="#FFF" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="104dp"
+            android:layout_weight=".77">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <TextView
+                    android:id="@+id/subject_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Geen video gevonden."
+                    android:elegantTextHeight="false"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="5.5"
+                    android:id="@+id/subject_grade" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/subject_content"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:gravity="left"
+                android:maxLines="4"
+                android:lines="4"
+
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sagittis iaculis neque. Nullam dapibus enim enim, a pharetra ligula mattis eu. Vivamus egestas, ipsum ut porttitor porttitor, nisl eros dignissim augue, eu elementum ante nisi ac ipsum. Aliquam eu urna vel nisi vulputate iaculis sed ultrices enim. Nullam scelerisque tellus purus, quis fermentum nisl dapibus in. Morbi quis luctus ante, non porttitor urna. Ut pretium fermentum lorem, ut congue neque pretium et." />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

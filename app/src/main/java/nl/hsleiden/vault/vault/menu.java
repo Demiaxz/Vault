@@ -1,5 +1,6 @@
 package nl.hsleiden.vault.vault;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import org.jsoup.nodes.Document;
 
 import nl.hsleiden.vault.vault.fetcher.DataFetch;
 import nl.hsleiden.vault.vault.fetcher.PicFetch;
+import nl.hsleiden.vault.vault.fragments.gradesFragment;
 import nl.hsleiden.vault.vault.fragments.testFragment;
 
 //import nl.hsleiden.vault.vault.fetcher.HttpFetcher;
@@ -37,6 +39,7 @@ public class menu extends AppCompatActivity
     //pasfoto in menu
     Bitmap bitmap = null;
     Document goods = null;
+    stashGoods k = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class menu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Vault - Dashboard");
+        showDash();
 
         //Welkomst bericht.
         if (getIntent().getExtras().getBoolean("loggedIn")){
@@ -62,7 +66,7 @@ public class menu extends AppCompatActivity
         }
         try {
             //create me a nested json with every grade you can fetch.
-            stashGoods k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username","0"),getIntent().getExtras().getString("password","0"),getApplicationContext()).runAuth());
+            k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username","0"),getIntent().getExtras().getString("password","0"),getApplicationContext()).runAuth());
             //Object k has getGradeList, wich is a list of all the grades stored, with key = coursename and value = another json object with multiple key's.
             //we need to create a listview that uses this information.
             System.out.println(k.getGradeList().getJSONObject("IMTUE").get("mutatiedatum").toString());
@@ -89,6 +93,11 @@ public class menu extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
+    }
+
+    public stashGoods getK() {
+        return k;
     }
 
     @Override
@@ -138,11 +147,16 @@ public class menu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.dashboard) {
+            //replaceFragment();
             showDash();
         } else if (id == R.id.grades) {
-            grades();
+            //grades();
+            setTitle("Vault - Grades");
+            gradesFragment kipje = new gradesFragment(getK());
+            replaceFragment(kipje);
         }  else if (id == R.id.about) {
-            test();
+            //test();
+            startActivity(new Intent(menu.this, piechart.class));
         } else if (id == R.id.logout) {
             logOut();
         }
@@ -221,4 +235,21 @@ public class menu extends AppCompatActivity
         fragmentTransaction.add(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();
     }
+    private void replaceFragment (Fragment fragment){
+        String backStateName =  fragment.getClass().getName();
+        String fragmentTag = backStateName;
+
+        FragmentManager manager = getFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){ //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.add(R.id.fragmentContainer, fragment, fragmentTag);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
+    }
+
+
 }

@@ -58,7 +58,8 @@
                 android:value="nl.hsleiden.vault.vault.homepage" />
         </activity>
         <activity android:name=".resultaatActivity" />
-        <activity android:name=".grades"></activity>
+        <activity android:name=".grades" />
+        <activity android:name=".piechart"></activity>
     </application>
 
 </manifest>

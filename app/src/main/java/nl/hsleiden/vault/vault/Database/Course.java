@@ -8,12 +8,14 @@ public class Course implements Serializable {           // WAAROM serializable ?
     private String ects;
     private String grade;
     private String period;
+    private String story;
 
-    public Course(String courseName, String ects, String grade, String period){
+    public Course(String courseName, String ects, String grade, String period, String story){
         this.name = courseName;
         this.ects = ects;
         this.grade = grade;
         this.period = period;
+        this.story = story;
     }
 
     //Getters
@@ -29,6 +31,11 @@ public class Course implements Serializable {           // WAAROM serializable ?
     public String getPeriod() {
         return period;
     }
+
+    public String getStory() {
+        return story;
+    }
+
     //Setters
     public void setName(String name) {
         this.name = name;
@@ -41,5 +48,9 @@ public class Course implements Serializable {           // WAAROM serializable ?
     }
     public void setPeriod(String period) {
         this.period = period;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
     }
 }
