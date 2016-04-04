@@ -15,6 +15,7 @@ public class stashGoods {
     JSONObject gradeDetails = new JSONObject();
     JSONObject gradeList = new JSONObject();
     ArrayList<String> nameList = new ArrayList<>();
+    ArrayList<String> nameListShort = new ArrayList<>();
 
     public stashGoods(Document document) {
 
@@ -115,8 +116,9 @@ public class stashGoods {
 
                     x.put("verhaal",verhaal);
 
-                    getGradeList().put(curcus+" "+toetstype, x);
-                    nameList.add(curcus+" "+toetstype);
+                    getGradeList().put(curcus + " " + toetstype, x);
+                    nameList.add(curcus + " " + toetstype);
+                    nameListShort.add(curcus);
                 }
                 catch (JSONException e){
                     e.printStackTrace();
@@ -146,6 +148,14 @@ public class stashGoods {
 
     public ArrayList<String> getNameList() {
         return nameList;
+    }
+
+    public ArrayList<String> getNameListShort() {
+        return nameListShort;
+    }
+
+    public void setNameListShort(ArrayList<String> nameListShort) {
+        this.nameListShort = nameListShort;
     }
 }
 
