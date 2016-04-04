@@ -69,7 +69,6 @@ public class menu extends AppCompatActivity
             k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username","0"),getIntent().getExtras().getString("password","0"),getApplicationContext()).runAuth());
             //Object k has getGradeList, wich is a list of all the grades stored, with key = coursename and value = another json object with multiple key's.
             //we need to create a listview that uses this information.
-            System.out.println(k.getGradeList().getJSONObject("IMTUE").get("mutatiedatum").toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,7 +81,7 @@ public class menu extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        showDash();
     }
 
     @Override
@@ -219,7 +218,7 @@ public class menu extends AppCompatActivity
     private void test(){
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        testFragment fragment = new testFragment();
+        testFragment fragment = new testFragment(getK());
         fragment.getView();
         fragmentTransaction.add(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();
@@ -227,11 +226,9 @@ public class menu extends AppCompatActivity
 
     private void showDash(){
         setTitle("Vault - Dashboard");
-
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        testFragment fragment = new testFragment();
-        fragment.getView();
+        testFragment fragment = new testFragment(getK());
         fragmentTransaction.add(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();
     }
