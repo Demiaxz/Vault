@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#FFBB00"
+    android:background="#FFFFFF"
     android:id="@+id/container">
 
     <com.github.mikephil.charting.charts.PieChart
@@ -10,16 +10,85 @@
         android:id="@+id/chart"
         android:layout_gravity="center"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp">
+        android:layout_centerHorizontal="true">
     </com.github.mikephil.charting.charts.PieChart>
 
-    <ListView
-        android:id="@+id/my_list_view"
-        android:layout_width="fill_parent"
-        android:layout_height="199dp"
-        android:layout_alignParentBottom="true"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Personal information"
+        android:id="@+id/textView"
+        android:background="#15135e"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:padding="5dp"
+        android:layout_below="@+id/chart"
+        android:layout_marginTop="36dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Grade Information"
+        android:id="@+id/textView2"
+        android:background="#15135e"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:padding="5dp"
+        android:layout_marginTop="137dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/my_list_view"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="0dp"
+        android:choiceMode="singleChoice" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/textView"
+        android:indeterminate="false"
+        android:max="60"
+        android:progress="20"
+        android:padding="6dp"
+        android:layout_below="@+id/chart"
+        android:longClickable="true"
+        android:minHeight="12dp"
+        android:layout_marginBottom="-32dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="72dp" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/menuPersonalListView"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/my_list_view"
+        android:layout_marginBottom="32dp"
+        android:choiceMode="none"
+        android:layout_marginTop="8dp" />
 
 </RelativeLayout>

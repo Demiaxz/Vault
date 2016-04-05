@@ -19,13 +19,13 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.hsleiden.vault.vault.Database.Course;
+import nl.hsleiden.vault.vault.Database.PairValue;
 import nl.hsleiden.vault.vault.R;
 import nl.hsleiden.vault.vault.stashGoods;
 
@@ -38,8 +38,14 @@ public class testFragment extends Fragment {
     public static int currentEcts = 0;
 
     private ListView mListView;
-    private gradesFragmentListAdapter mAdapter;
+    private menuGradesListAdapter mAdapter;
+
+    private ListView bListView;
+    private menuInfoListAdapter bAdapter;
+
     private List<Course> courseModels = new ArrayList<>();    // NEED A METHOD TO FILL THIS. RETRIEVE THE DATA FROM JSON
+    private List<PairValue> personModels = new ArrayList<>();    // NEED A METHOD TO FILL THIS. RETRIEVE THE DATA FROM JSON
+
     private stashGoods goods = null;
 
     public testFragment(stashGoods k){
@@ -55,7 +61,7 @@ public class testFragment extends Fragment {
         mChart.getLegend().setEnabled(false);
         mChart.setTransparentCircleColor(Color.rgb(130, 130, 130));
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-        setData(0);
+        setData(20);
         super.onCreate(savedInstanceState);
 
         // get Arguments
@@ -64,11 +70,13 @@ public class testFragment extends Fragment {
         // Get the Listview by ID
         mListView = (ListView) view.findViewById(R.id.my_list_view);
 
+        bListView = (ListView) view.findViewById(R.id.menuPersonalListView);
+
         // Get the amount of return
         //JSONArray array = goods.getGradeDetails().names();
 
         // For all the items we get in the return
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             try {
                 JSONObject element = goods.getGradeList().getJSONObject(goods.getNameList().get(i).toString());
 
@@ -90,6 +98,16 @@ public class testFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        //for all the information stored about the user
+        //name
+        //class
+        //mentor
+        //period
+        //TODO: itemModels.add(key,value);
+        personModels.add(new PairValue("Name:","K.R. Smits"));
+        personModels.add(new PairValue("Class:","INF2C"));
+        personModels.add(new PairValue("Mentor:","Hahahahaha!"));
+        personModels.add(new PairValue("Period:","3"));
 
 
 
@@ -102,8 +120,13 @@ public class testFragment extends Fragment {
 
 
         // Now give the listview( filled) back
-        mAdapter = new gradesFragmentListAdapter(getActivity(), 0, courseModels);
+        mAdapter = new menuGradesListAdapter(getActivity(), 0, courseModels);
         mListView.setAdapter(mAdapter);
+
+
+        bAdapter = new menuInfoListAdapter(getActivity(),0,personModels);
+        bListView.setAdapter(bAdapter);
+
 
         // Create the onclicklistener
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -141,13 +164,13 @@ public class testFragment extends Fragment {
         //  http://www.materialui.co/colors
         ArrayList<Integer> colors = new ArrayList<>();
         if (currentEcts <10) {
-            colors.add(Color.rgb(244,81,30));
+            colors.add(Color.rgb(255,21,19));
         } else if (currentEcts < 40){
-            colors.add(Color.rgb(235,0,0));
+            colors.add(Color.rgb(205,21,19));
         } else if  (currentEcts < 50) {
-            colors.add(Color.rgb(253,216,53));
+            colors.add(Color.rgb(155,21,19));
         } else {
-            colors.add(Color.rgb(67,160,71));
+            colors.add(Color.rgb(67,21,19));
         }
 
         colors.add(Color.rgb(255,0,0));

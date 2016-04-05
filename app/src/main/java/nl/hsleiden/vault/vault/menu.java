@@ -132,8 +132,8 @@ public class menu extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == 1) {
-            return true;
+        if (id == R.id.logout) {
+            logOut();
         }
 
         return super.onOptionsItemSelected(item);
