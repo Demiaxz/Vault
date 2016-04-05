@@ -38,7 +38,10 @@
         android:layout_alignLeft="@+id/passwordField"
         android:layout_alignStart="@+id/passwordField"
         android:layout_alignRight="@+id/passwordField"
-        android:layout_alignEnd="@+id/passwordField" />
+        android:layout_alignEnd="@+id/passwordField"
+        android:maxLines="1"
+        android:minLines="1"
+        android:singleLine="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -54,7 +57,10 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:minLines="1" />
 
     <CheckBox
         android:layout_width="wrap_content"
