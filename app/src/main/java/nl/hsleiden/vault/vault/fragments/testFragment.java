@@ -1,8 +1,6 @@
 package nl.hsleiden.vault.vault.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,6 +49,7 @@ public class testFragment extends Fragment {
     public testFragment(stashGoods k){
         goods = k;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = (RelativeLayout) inflater.inflate(R.layout.test_fragment_layout, container, false);
@@ -104,10 +103,13 @@ public class testFragment extends Fragment {
         //mentor
         //period
         //TODO: itemModels.add(key,value);
-        personModels.add(new PairValue("Name:","K.R. Smits"));
+        // - - - - - - - - - - - - - - - - - - - - - - - - //
+        String name = getActivity().getSharedPreferences("userData", 0).getString("voornaam","Geen naam gevonden.");
+
+        personModels.add(new PairValue("Name:",name));
         personModels.add(new PairValue("Class:","INF2C"));
-        personModels.add(new PairValue("Mentor:","Hahahahaha!"));
         personModels.add(new PairValue("Period:","3"));
+        personModels.add(new PairValue("Advice:","Keep going!"));
 
 
 
@@ -139,12 +141,13 @@ public class testFragment extends Fragment {
     //                                                 intent.putExtra("curcus",selectedNewsitem.getName());
     //                                                 startActivity(intent);
 
-                 FragmentManager fragmentManager = getFragmentManager();
-                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                 gradesInformationFragment fragment = new gradesInformationFragment();
-                 fragment.getView();
-                 fragmentTransaction.add(R.id.fragmentContainer, fragment);
-                 fragmentTransaction.commit();
+//                 FragmentManager fragmentManager = getFragmentManager();
+//                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                 gradesInformationFragment fragment = new gradesInformationFragment();
+//                 fragment.getView();
+//                 fragmentTransaction.add(R.id.fragmentContainer, fragment);
+//                 fragmentTransaction.commit();
+                    new Alerter(selectedNewsitem,goods).show(getFragmentManager(), "MyDialog");
              }
          });
         return view;

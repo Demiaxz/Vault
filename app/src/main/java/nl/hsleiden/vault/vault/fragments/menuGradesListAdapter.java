@@ -30,8 +30,8 @@ public class menuGradesListAdapter extends ArrayAdapter<Course> {
             vh = new ViewHolder();
             LayoutInflater li = LayoutInflater.from(getContext());
             convertView = li.inflate(R.layout.menu_grades_row, parent, false);
-            vh.name = (TextView) convertView.findViewById(R.id.grades_name);
-            vh.grade = (TextView) convertView.findViewById(R.id.grades_grade);
+            vh.name = (TextView) convertView.findViewById(R.id.subject_name);
+            vh.grade = (TextView) convertView.findViewById(R.id.subject_grade);
 //            vh.story = (TextView) convertView.findViewById(R.id.subject_content);
 //            vh.code = (TextView) convertView.findViewById(R.id.subject_code);
             convertView.setTag(vh);

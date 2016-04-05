@@ -28,7 +28,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,12 +41,13 @@
         android:textColor="#ffffff"
         android:textSize="20dp"
         android:padding="5dp"
-        android:layout_marginTop="137dp"
+        android:layout_marginTop="130dp"
         android:layout_below="@+id/textView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textAlignment="center" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -89,6 +91,6 @@
         android:layout_above="@+id/my_list_view"
         android:layout_marginBottom="32dp"
         android:choiceMode="none"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="0dp" />
 
 </RelativeLayout>

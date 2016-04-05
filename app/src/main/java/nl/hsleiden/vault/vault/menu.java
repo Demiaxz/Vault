@@ -40,6 +40,7 @@ public class menu extends AppCompatActivity
     Bitmap bitmap = null;
     Document goods = null;
     stashGoods k = null;
+    gradesFragment gradesTrick = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class menu extends AppCompatActivity
             k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username","0"),getIntent().getExtras().getString("password","0"),getApplicationContext()).runAuth());
             //Object k has getGradeList, wich is a list of all the grades stored, with key = coursename and value = another json object with multiple key's.
             //we need to create a listview that uses this information.
+            gradesTrick = new gradesFragment(getK());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,6 +137,10 @@ public class menu extends AppCompatActivity
         if (id == R.id.logout) {
             logOut();
         }
+        if (id == R.id.settings) {
+            //TODO: settingspage
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -146,18 +152,10 @@ public class menu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.dashboard) {
-            //replaceFragment();
-            showDash();
+            replaceFragment(new testFragment(getK()));
         } else if (id == R.id.grades) {
             //grades();
-            setTitle("Vault - Grades");
-            gradesFragment kipje = new gradesFragment(getK());
-            replaceFragment(kipje);
-        }  else if (id == R.id.about) {
-            //test();
-            startActivity(new Intent(menu.this, piechart.class));
-        } else if (id == R.id.logout) {
-            logOut();
+            replaceFragment(gradesTrick);
         }
 
 

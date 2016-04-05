@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.hsleiden.vault.vault.Database.Course;
-import nl.hsleiden.vault.vault.Database.PairValue;
 import nl.hsleiden.vault.vault.R;
 import nl.hsleiden.vault.vault.stashGoods;
 
@@ -28,7 +27,7 @@ import nl.hsleiden.vault.vault.stashGoods;
 public class gradesFragment extends Fragment {
 
     private ListView mListView;
-    private gradesFragmentListAdapter mAdapter;
+    private menuGradesListAdapter mAdapter;
 
 
     private List<Course> courseModels = new ArrayList<>();    // NEED A METHOD TO FILL THIS. RETRIEVE THE DATA FROM JSON
@@ -89,7 +88,7 @@ public class gradesFragment extends Fragment {
 
 
         // Now give the listview( filled) back
-        mAdapter = new gradesFragmentListAdapter(getActivity(), 0, courseModels);
+        mAdapter = new menuGradesListAdapter(getActivity(), 0, courseModels);
         mListView.setAdapter(mAdapter);
 
         // Create the onclicklistener
@@ -103,12 +102,13 @@ public class gradesFragment extends Fragment {
 //                                                 intent.putExtra("curcus",selectedNewsitem.getName());
 //                                                 startActivity(intent);
 
-             FragmentManager fragmentManager = getFragmentManager();
-             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-             gradesInformationFragment fragment = new gradesInformationFragment();
-             fragment.getView();
-             fragmentTransaction.add(R.id.fragmentContainer, fragment);
-             fragmentTransaction.commit();
+//             FragmentManager fragmentManager = getFragmentManager();
+//             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//             gradesInformationFragment fragment = new gradesInformationFragment();
+//             fragment.getView();
+//             fragmentTransaction.add(R.id.fragmentContainer, fragment);
+//             fragmentTransaction.commit();
+             new Alerter(selectedNewsitem,goods).show(getFragmentManager(), "MyDialog");
          }
      }
         );

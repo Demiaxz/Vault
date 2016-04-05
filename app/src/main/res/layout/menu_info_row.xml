@@ -10,12 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:useDefaultMargins="false"
-        android:layout_marginLeft="8dp">
+        android:layout_marginLeft="8dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:rowCount="1"
+        android:columnCount="2">
 
         <TextView
             android:id="@+id/info_title"
             android:layout_width="65dp"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="0dp"

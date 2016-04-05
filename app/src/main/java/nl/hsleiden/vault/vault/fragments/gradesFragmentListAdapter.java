@@ -32,7 +32,7 @@ public class gradesFragmentListAdapter extends ArrayAdapter<Course> {
             convertView = li.inflate(R.layout.content_news_row, parent, false);
             vh.name = (TextView) convertView.findViewById(R.id.subject_name);
             vh.grade = (TextView) convertView.findViewById(R.id.subject_grade);
-            vh.story = (TextView) convertView.findViewById(R.id.subject_content);
+            //vh.story = (TextView) convertView.findViewById(R.id.subject_content);
 //            vh.code = (TextView) convertView.findViewById(R.id.subject_code);
             convertView.setTag(vh);
         } else {
@@ -41,7 +41,7 @@ public class gradesFragmentListAdapter extends ArrayAdapter<Course> {
         Course cm = getItem(position);
         vh.name.setText(cm.getName());
         vh.grade.setText(cm.getGrade());
-        vh.story.setText(cm.getStory());
+        //vh.story.setText(cm.getStory());
 //        vh.code.setText(cm.blk_description);
         return convertView;
     }
@@ -49,7 +49,7 @@ public class gradesFragmentListAdapter extends ArrayAdapter<Course> {
     private static class ViewHolder {
         TextView name;
         TextView grade;
-        TextView code;
-        TextView story;
+        //TextView code;
+        //TextView story;
     }
 }
