@@ -1,12 +1,9 @@
 package nl.hsleiden.vault.vault;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,7 +16,6 @@ import java.util.List;
 import nl.hsleiden.vault.vault.Database.Course;
 import nl.hsleiden.vault.vault.Database.GsonRequest;
 import nl.hsleiden.vault.vault.Database.VolleyHelper;
-import nl.hsleiden.vault.vault.List.CourseListActivity;
 import nl.hsleiden.vault.vault.List.CourseListAdapter;
 
 public class resultaatActivity extends AppCompatActivity {
@@ -27,7 +23,7 @@ public class resultaatActivity extends AppCompatActivity {
     private CourseListAdapter mAdapter;
     private List<Course> courseModels = new ArrayList<>();
 
-    private void requestSubjects() {
+    public void requestSubjects(Context kaas) {
         Type type = new TypeToken<List<Course>>() {
         }.getType();
         GsonRequest<List<Course>> request = new GsonRequest<List<Course>>(
@@ -44,7 +40,7 @@ public class resultaatActivity extends AppCompatActivity {
             }
         }
         );
-        VolleyHelper.getInstance(this).addToRequestQueue(request);
+        VolleyHelper.getInstance(kaas).addToRequestQueue(request);
     }
 
     private void processRequestSucces(List<Course> subjects) {
@@ -60,33 +56,4 @@ public class resultaatActivity extends AppCompatActivity {
     private void processRequestError(VolleyError error) {
         Log.d("processRequestError", "unNatty.");
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resultaat);
-        requestSubjects();
-        mListView = (ListView) findViewById(R.id.my_list_view);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                             @Override
-                                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                                                 Toast t = Toast.makeText(resultaatActivity.this, "Click" + position, Toast.LENGTH_LONG);
-                                                 t.show();
-                                             }
-                                         }
-        );
-        mListView = (ListView) findViewById(R.id.my_list_view);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                             @Override
-                                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                                                 Toast t = Toast.makeText(resultaatActivity.this,"Click" + position, Toast.LENGTH_LONG);
-                                                 t.show();
-                                             }
-                                         }
-        );
-        mAdapter = new CourseListAdapter(resultaatActivity.this, 0, courseModels);
-        mListView.setAdapter(mAdapter);
-    }
-
-
 }
