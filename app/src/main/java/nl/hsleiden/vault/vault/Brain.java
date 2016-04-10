@@ -12,9 +12,9 @@ public class Brain {
     protected ArrayList<String> nameList;
     protected JSONObject courseListEC = new JSONObject();
     protected JSONObject courseListNOEC = new JSONObject();
+    protected ArrayList<String> ECList = new ArrayList();
 
-    public Brain(stashGoods k){
-        goods = k;
+    public Brain(){
         // Best coding ever.
 
         addCourseEC("IARCH","3");
@@ -36,11 +36,13 @@ public class Brain {
         addCourseEC("IPROV","3");
         addCourseEC("ICOMMP","3");
         addCourseEC("ISLP","1");
+        addCourseEC("ISCP","20");
     }
 
     public stashGoods getGoods() {
         return goods;
     }
+
 
     protected int getPoints(){
         int points = 0;
@@ -74,6 +76,10 @@ public class Brain {
     protected void addCourseEC(String key, String value){
         try{courseListEC.put(key, value);}
         catch (Exception e ){e.printStackTrace();}
+    }
+
+    public JSONObject getCourseListEC() {
+        return courseListEC;
     }
 }
 

@@ -3,6 +3,7 @@ package nl.hsleiden.vault.vault.fragments;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,12 +46,31 @@ public class testFragment extends Fragment {
     private List<PairValue> personModels = new ArrayList<>();    // NEED A METHOD TO FILL THIS. RETRIEVE THE DATA FROM JSON
 
     private stashGoods goods = null;
+    private boolean dildo = false;
 
     public testFragment(stashGoods k){
-        goods = k;
+        setGoods(k);
+    }
+
+    public static int getCurrentEcts() {
+        return currentEcts;
+    }
+
+    public static void setCurrentEcts(int currentEcts) {
+        testFragment.currentEcts = currentEcts;
+    }
+
+    public stashGoods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(stashGoods goods) {
+        this.goods = goods;
     }
 
     @Override
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = (RelativeLayout) inflater.inflate(R.layout.test_fragment_layout, container, false);
         mChart = (PieChart) view.findViewById(R.id.chart);
@@ -60,7 +80,7 @@ public class testFragment extends Fragment {
         mChart.getLegend().setEnabled(false);
         mChart.setTransparentCircleColor(Color.rgb(130, 130, 130));
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-        setData(20);
+
         super.onCreate(savedInstanceState);
 
         // get Arguments
@@ -94,32 +114,25 @@ public class testFragment extends Fragment {
             }
 
             catch(Exception e){
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
         //for all the information stored about the user
         //name
-        //class
-        //mentor
-        //period
+        //class NOT
+        //mentor NOT
+        //period NOT
         //TODO: itemModels.add(key,value);
         // - - - - - - - - - - - - - - - - - - - - - - - - //
-        String name = getActivity().getSharedPreferences("userData", 0).getString("voornaam","Geen naam gevonden.");
+        String name = getActivity().getSharedPreferences("userData", 0).getString("voornaam","Edit me!");
+        String classs = getActivity().getSharedPreferences("userData", 0).getString("Class","Edit me!");
+        String period = getActivity().getSharedPreferences("userData", 0).getString("Period","Edit me!");
+        String advice = getActivity().getSharedPreferences("userData", 0).getString("Advice","Unable to give advice.");
 
-        personModels.add(new PairValue("Name:",name));
-        personModels.add(new PairValue("Class:","INF2C"));
-        personModels.add(new PairValue("Period:","3"));
-        personModels.add(new PairValue("Advice:","Keep going!"));
-
-
-
-
-//            // Add to the listview
-//            if(nwsIDS == "" || nwsIDS.contains("[" + nws_id + "]")){
-
-
-//            }
-
+        personModels.add(new PairValue("Name",name));
+        personModels.add(new PairValue("Class",getActivity().getSharedPreferences("userData", 0).getString("Class","Edit me!")));
+        personModels.add(new PairValue("Period",getActivity().getSharedPreferences("userData", 0).getString("Period","Snickerbar")));
+        personModels.add(new PairValue("Advice", advice));
 
         // Now give the listview( filled) back
         mAdapter = new menuGradesListAdapter(getActivity(), 0, courseModels);
@@ -132,29 +145,55 @@ public class testFragment extends Fragment {
 
         // Create the onclicklistener
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-             @Override
-             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Course selectedNewsitem = courseModels.get(position);
+                new Alerter(selectedNewsitem, goods).show(getFragmentManager(), "Info");
+            }
+        });
 
-                 Course selectedNewsitem = courseModels.get(position);
+        bListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-    //                                                 Intent intent = new Intent(getActivity(), gradesInformationFragment.class);
-    //                                                 intent.putExtra("curcus",selectedNewsitem.getName());
-    //                                                 startActivity(intent);
+                PairValue selectedNewsitem = personModels.get(position);
 
-//                 FragmentManager fragmentManager = getFragmentManager();
-//                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                 gradesInformationFragment fragment = new gradesInformationFragment();
-//                 fragment.getView();
-//                 fragmentTransaction.add(R.id.fragmentContainer, fragment);
-//                 fragmentTransaction.commit();
-                    new Alerter(selectedNewsitem,goods).show(getFragmentManager(), "MyDialog");
-             }
-         });
+                if(selectedNewsitem.getKey() != "Advice") {
+                    if (selectedNewsitem.getKey() != "Period") {
+                        String settings = selectedNewsitem.getKey();
+                        String input = selectedNewsitem.getValue();
+                        new changeAlerter(settings, input, bListView, selectedNewsitem, bAdapter).show(getFragmentManager(), "Change");
+                        bAdapter = new menuInfoListAdapter(getActivity(), 0, personModels);
+                        bListView.setAdapter(bAdapter);
+                    }
+                    else{
+                        //TODO: Find out the damn period.
+                    }
+                }
+                else{
+                    //TODO: Why this advice?
+                }
+
+
+            }
+        });
+
+        // Execute some code after 2 seconds have passed
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            public void run() {
+                setData(getGoods());
+            }
+        }, 500);
+
         return view;
     }
 
-    private void setData(int aantal) {
-        currentEcts = aantal;
+    public void setData(stashGoods k) {
+        currentEcts = k.getPoints();
+        int aantal = k.getPoints();
+        System.out.println(aantal);
         ArrayList<Entry> yValues = new ArrayList<>();
         ArrayList<String> xValues = new ArrayList<>();
 
@@ -176,7 +215,7 @@ public class testFragment extends Fragment {
             colors.add(Color.rgb(67,21,19));
         }
 
-        colors.add(Color.rgb(255,0,0));
+        colors.add(Color.rgb(255, 0, 0));
 
 
         PieDataSet dataSet = new PieDataSet(yValues, "ECTS");
@@ -187,6 +226,7 @@ public class testFragment extends Fragment {
         mChart.setData(data);        // bind je dataset aan de chart.
         mChart.invalidate();        // Aanroepen van een volledige redraw
         Log.d("aantal =", "" + currentEcts);
+
     }
 }
 

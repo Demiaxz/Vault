@@ -49,7 +49,6 @@ public class menu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Vault - Dashboard");
-        showDash();
 
         //Welkomst bericht.
         if (getIntent().getExtras().getBoolean("loggedIn")){
@@ -71,6 +70,7 @@ public class menu extends AppCompatActivity
             //Object k has getGradeList, wich is a list of all the grades stored, with key = coursename and value = another json object with multiple key's.
             //we need to create a listview that uses this information.
             gradesTrick = new gradesFragment(getK());
+
         } catch (Exception e) {
             e.printStackTrace();
         }

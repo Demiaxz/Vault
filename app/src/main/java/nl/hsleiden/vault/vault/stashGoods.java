@@ -1,5 +1,7 @@
 package nl.hsleiden.vault.vault;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.nodes.Document;
@@ -16,6 +18,9 @@ public class stashGoods {
     JSONObject gradeList = new JSONObject();
     ArrayList<String> nameList = new ArrayList<>();
     ArrayList<String> nameListShort = new ArrayList<>();
+    Brain brain = new Brain();
+    public int points = 0;
+    int bufpo = 0;
 
     public stashGoods(Document document) {
 
@@ -98,7 +103,46 @@ public class stashGoods {
 
             }//end of j
             //System.out.println("Newest fetch : "+curcus+resultaat);
+//            String nameBuffer = curcus+" "+toetstype;
+//
+//            for (String name : nameList){
+//                if (name == nameBuffer) {
+//                    nameBuffer = nameBuffer + " I";
+//                }
+//
+//                else {
+//                    nameBuffer = nameBuffer;
+//                }
+//            }
+//            nameList.add(nameBuffer);
+            int ECBuffer = 0;
+            int periodBuffer = 0;
+            resultaat = resultaat.replace(",",".");
 
+            if ( resultaat.toLowerCase().equals("v")){
+                try {
+                    String bufferEC = brain.getCourseListEC().getString(curcus);
+                    setPoints((getPoints() + Integer.valueOf(bufferEC)));
+                    bufpo = bufpo + Integer.valueOf(bufferEC);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                if (Double.valueOf(resultaat.trim()) > 5.5) {
+                    try {
+
+                        String bufferEC = brain.getCourseListEC().getString(curcus);
+                        setPoints((getPoints() + Integer.valueOf(bufferEC)));
+                        bufpo = bufpo + Integer.valueOf(bufferEC);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Log.d(curcus,resultaat);
+                }
+            }
             try {
                 try {
                     JSONObject x = new JSONObject();
@@ -114,11 +158,11 @@ public class stashGoods {
                     String verhaal = curcus + " is op "+ testdate+" afgenomen als een "+toetstype+", en weegt voor:"+weging+". Jouw cijfer, "+resultaat+", staat "+concept+
                             ". De datum waarop dit in osiris is verwerkt is: "+mutatiedatum;
 
-                    x.put("verhaal",verhaal);
+                    x.put("verhaal", verhaal);
 
                     getGradeList().put(curcus + " " + toetstype, x);
-                    nameList.add(curcus + " " + toetstype);
                     nameListShort.add(curcus);
+                    nameList.add(curcus + " " + toetstype);
                 }
                 catch (JSONException e){
                     e.printStackTrace();
@@ -131,11 +175,15 @@ public class stashGoods {
             catch (NullPointerException e) {
                 System.out.println("Something went wrong.");
             }
+
+
 //            System.out.println(a.getApplicationContext().databaseList().toString());
 //            sharedPrefference.getVakData(a.getApplicationContext()).edit().putString(curcus,resultaat).commit();
 
 
         }//end of i
+        //testFragment.setCurrentEcts(bufpo);
+        setPoints(bufpo);
     }
 
     public JSONObject getGradeDetails() {
@@ -156,6 +204,14 @@ public class stashGoods {
 
     public void setNameListShort(ArrayList<String> nameListShort) {
         this.nameListShort = nameListShort;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }
 

@@ -22,6 +22,7 @@ public class resultaatActivity extends AppCompatActivity {
     private ListView mListView;
     private CourseListAdapter mAdapter;
     private List<Course> courseModels = new ArrayList<>();
+    private List<Course> subjects;
 
     public void requestSubjects(Context kaas) {
         Type type = new TypeToken<List<Course>>() {
@@ -45,15 +46,19 @@ public class resultaatActivity extends AppCompatActivity {
 
     private void processRequestSucces(List<Course> subjects) {
         Log.d("processRequestSucces", "Natty.");
-
-        //voor elke course in een aangereikte string doe ff rollen dan
-        for (Course e : subjects) {
-            Log.d("x:", String.valueOf(e));
-        }
+        setSubjects(subjects);
 
     }
 
     private void processRequestError(VolleyError error) {
         Log.d("processRequestError", "unNatty.");
+    }
+
+    public List<Course> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Course> subjects) {
+        this.subjects = subjects;
     }
 }
