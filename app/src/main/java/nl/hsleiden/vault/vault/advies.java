@@ -2,6 +2,10 @@ package nl.hsleiden.vault.vault;
 
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
+import nl.hsleiden.vault.vault.Database.Course;
+
 
 /**
  * Created by Kay on 10-4-2016.
@@ -12,6 +16,8 @@ public class advies extends AppCompatActivity{
     public static final int MAX_ECTS = 60;
     public static int currentEcts = 0;
     public String advies;
+
+
 
     advies x = new advies();
 
