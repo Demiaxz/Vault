@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#FFF">
 
-    <include layout="@layout/content_blok_list" />
+    <include layout="@layout/content_blok_list"
+        android:id="@+id/listshit" />
 
 </RelativeLayout>

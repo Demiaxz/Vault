@@ -1,5 +1,6 @@
 package nl.hsleiden.vault.vault.fragments;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +13,12 @@ import java.util.List;
 import nl.hsleiden.vault.vault.Database.Course;
 import nl.hsleiden.vault.vault.R;
 
-
 /**
- * Created by Perseus on 03-04-16.
+ * Created by Perseus on 05-04-16.
  */
-public class gradesFragmentListAdapter extends ArrayAdapter<Course> {
+public class menuGradesListAdapter extends ArrayAdapter<Course> {
 
-    public gradesFragmentListAdapter(Context context, int resource, List<Course> objects) {
+    public menuGradesListAdapter(Context context, int resource, List<Course> objects) {
         super(context, resource, objects);
     }
 
@@ -29,10 +29,10 @@ public class gradesFragmentListAdapter extends ArrayAdapter<Course> {
         if (convertView == null) {
             vh = new ViewHolder();
             LayoutInflater li = LayoutInflater.from(getContext());
-            convertView = li.inflate(R.layout.content_news_row, parent, false);
+            convertView = li.inflate(R.layout.menu_grades_row, parent, false);
             vh.name = (TextView) convertView.findViewById(R.id.subject_name);
             vh.grade = (TextView) convertView.findViewById(R.id.subject_grade);
-            //vh.story = (TextView) convertView.findViewById(R.id.subject_content);
+//            vh.story = (TextView) convertView.findViewById(R.id.subject_content);
 //            vh.code = (TextView) convertView.findViewById(R.id.subject_code);
             convertView.setTag(vh);
         } else {
@@ -41,7 +41,7 @@ public class gradesFragmentListAdapter extends ArrayAdapter<Course> {
         Course cm = getItem(position);
         vh.name.setText(cm.getName());
         vh.grade.setText(cm.getGrade());
-        //vh.story.setText(cm.getStory());
+//        vh.story.setText(cm.getStory());
 //        vh.code.setText(cm.blk_description);
         return convertView;
     }
@@ -49,7 +49,5 @@ public class gradesFragmentListAdapter extends ArrayAdapter<Course> {
     private static class ViewHolder {
         TextView name;
         TextView grade;
-        //TextView code;
-        //TextView story;
     }
 }

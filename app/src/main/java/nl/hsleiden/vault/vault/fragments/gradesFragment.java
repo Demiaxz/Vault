@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -28,8 +27,11 @@ import nl.hsleiden.vault.vault.stashGoods;
 public class gradesFragment extends Fragment {
 
     private ListView mListView;
-    private gradesFragmentListAdapter mAdapter;
+    private menuGradesListAdapter mAdapter;
+
+
     private List<Course> courseModels = new ArrayList<>();    // NEED A METHOD TO FILL THIS. RETRIEVE THE DATA FROM JSON
+
     private stashGoods goods = null;
 
     public gradesFragment(stashGoods k){
@@ -48,8 +50,7 @@ public class gradesFragment extends Fragment {
         // Get the Listview by ID
         mListView = (ListView) fragmentView.findViewById(R.id.my_list_view);
 
-        // Get the amount of return
-        JSONArray array = goods.getGradeDetails().names();
+
 
         // For all the items we get in the return
         for (int i = 0; i < goods.getNameList().size(); i++) {
@@ -78,6 +79,7 @@ public class gradesFragment extends Fragment {
 
 
 
+
 //            // Add to the listview
 //            if(nwsIDS == "" || nwsIDS.contains("[" + nws_id + "]")){
 
@@ -86,28 +88,29 @@ public class gradesFragment extends Fragment {
 
 
         // Now give the listview( filled) back
-        mAdapter = new gradesFragmentListAdapter(getActivity(), 0, courseModels);
+        mAdapter = new menuGradesListAdapter(getActivity(), 0, courseModels);
         mListView.setAdapter(mAdapter);
 
         // Create the onclicklistener
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                             @Override
-                                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+         @Override
+         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                                                 Course selectedNewsitem = courseModels.get(position);
+             Course selectedNewsitem = courseModels.get(position);
 
 //                                                 Intent intent = new Intent(getActivity(), gradesInformationFragment.class);
 //                                                 intent.putExtra("curcus",selectedNewsitem.getName());
 //                                                 startActivity(intent);
 
-                                                 FragmentManager fragmentManager = getFragmentManager();
-                                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                                 gradesInformationFragment fragment = new gradesInformationFragment();
-                                                 fragment.getView();
-                                                 fragmentTransaction.add(R.id.fragmentContainer, fragment);
-                                                 fragmentTransaction.commit();
-                                             }
-                                         }
+//             FragmentManager fragmentManager = getFragmentManager();
+//             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//             gradesInformationFragment fragment = new gradesInformationFragment();
+//             fragment.getView();
+//             fragmentTransaction.add(R.id.fragmentContainer, fragment);
+//             fragmentTransaction.commit();
+             new Alerter(selectedNewsitem,goods).show(getFragmentManager(), "MyDialog");
+         }
+     }
         );
         return fragmentView;
     }

@@ -1,10 +1,9 @@
 package nl.hsleiden.vault.vault.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +18,13 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.hsleiden.vault.vault.Database.Course;
+import nl.hsleiden.vault.vault.Database.PairValue;
 import nl.hsleiden.vault.vault.R;
 import nl.hsleiden.vault.vault.stashGoods;
 
@@ -38,14 +37,40 @@ public class testFragment extends Fragment {
     public static int currentEcts = 0;
 
     private ListView mListView;
-    private gradesFragmentListAdapter mAdapter;
+    private menuGradesListAdapter mAdapter;
+
+    private ListView bListView;
+    private menuInfoListAdapter bAdapter;
+
     private List<Course> courseModels = new ArrayList<>();    // NEED A METHOD TO FILL THIS. RETRIEVE THE DATA FROM JSON
+    private List<PairValue> personModels = new ArrayList<>();    // NEED A METHOD TO FILL THIS. RETRIEVE THE DATA FROM JSON
+
     private stashGoods goods = null;
+    private boolean dildo = false;
 
     public testFragment(stashGoods k){
-        goods = k;
+        setGoods(k);
     }
+
+    public static int getCurrentEcts() {
+        return currentEcts;
+    }
+
+    public static void setCurrentEcts(int currentEcts) {
+        testFragment.currentEcts = currentEcts;
+    }
+
+    public stashGoods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(stashGoods goods) {
+        this.goods = goods;
+    }
+
     @Override
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = (RelativeLayout) inflater.inflate(R.layout.test_fragment_layout, container, false);
         mChart = (PieChart) view.findViewById(R.id.chart);
@@ -55,7 +80,7 @@ public class testFragment extends Fragment {
         mChart.getLegend().setEnabled(false);
         mChart.setTransparentCircleColor(Color.rgb(130, 130, 130));
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-        setData(0);
+
         super.onCreate(savedInstanceState);
 
         // get Arguments
@@ -64,11 +89,13 @@ public class testFragment extends Fragment {
         // Get the Listview by ID
         mListView = (ListView) view.findViewById(R.id.my_list_view);
 
+        bListView = (ListView) view.findViewById(R.id.menuPersonalListView);
+
         // Get the amount of return
         //JSONArray array = goods.getGradeDetails().names();
 
         // For all the items we get in the return
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             try {
                 JSONObject element = goods.getGradeList().getJSONObject(goods.getNameList().get(i).toString());
 
@@ -87,48 +114,86 @@ public class testFragment extends Fragment {
             }
 
             catch(Exception e){
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
+        //for all the information stored about the user
+        //name
+        //class NOT
+        //mentor NOT
+        //period NOT
+        //TODO: itemModels.add(key,value);
+        // - - - - - - - - - - - - - - - - - - - - - - - - //
+        String name = getActivity().getSharedPreferences("userData", 0).getString("voornaam","Edit me!");
+        String classs = getActivity().getSharedPreferences("userData", 0).getString("Class","Edit me!");
+        String period = getActivity().getSharedPreferences("userData", 0).getString("Period","Edit me!");
+        String advice = getActivity().getSharedPreferences("userData", 0).getString("Advice","Unable to give advice.");
 
-
-
-
-//            // Add to the listview
-//            if(nwsIDS == "" || nwsIDS.contains("[" + nws_id + "]")){
-
-
-//            }
-
+        personModels.add(new PairValue("Name",name));
+        personModels.add(new PairValue("Class",getActivity().getSharedPreferences("userData", 0).getString("Class","Edit me!")));
+        personModels.add(new PairValue("Period",getActivity().getSharedPreferences("userData", 0).getString("Period","Snickerbar")));
+        personModels.add(new PairValue("Advice", advice));
 
         // Now give the listview( filled) back
-        mAdapter = new gradesFragmentListAdapter(getActivity(), 0, courseModels);
+        mAdapter = new menuGradesListAdapter(getActivity(), 0, courseModels);
         mListView.setAdapter(mAdapter);
+
+
+        bAdapter = new menuInfoListAdapter(getActivity(),0,personModels);
+        bListView.setAdapter(bAdapter);
+
 
         // Create the onclicklistener
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-             @Override
-             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Course selectedNewsitem = courseModels.get(position);
+                new Alerter(selectedNewsitem, goods).show(getFragmentManager(), "Info");
+            }
+        });
 
-                 Course selectedNewsitem = courseModels.get(position);
+        bListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-    //                                                 Intent intent = new Intent(getActivity(), gradesInformationFragment.class);
-    //                                                 intent.putExtra("curcus",selectedNewsitem.getName());
-    //                                                 startActivity(intent);
+                PairValue selectedNewsitem = personModels.get(position);
 
-                 FragmentManager fragmentManager = getFragmentManager();
-                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                 gradesInformationFragment fragment = new gradesInformationFragment();
-                 fragment.getView();
-                 fragmentTransaction.add(R.id.fragmentContainer, fragment);
-                 fragmentTransaction.commit();
-             }
-         });
+                if(selectedNewsitem.getKey() != "Advice") {
+                    if (selectedNewsitem.getKey() != "Period") {
+                        String settings = selectedNewsitem.getKey();
+                        String input = selectedNewsitem.getValue();
+                        new changeAlerter(settings, input, bListView, selectedNewsitem, bAdapter).show(getFragmentManager(), "Change");
+                        bAdapter = new menuInfoListAdapter(getActivity(), 0, personModels);
+                        bListView.setAdapter(bAdapter);
+                    }
+                    else{
+                        //TODO: Find out the damn period.
+                    }
+                }
+                else{
+                    //TODO: Why this advice?
+                }
+
+
+            }
+        });
+
+        // Execute some code after 2 seconds have passed
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            public void run() {
+                setData(getGoods());
+            }
+        }, 500);
+
         return view;
     }
 
-    private void setData(int aantal) {
-        currentEcts = aantal;
+    public void setData(stashGoods k) {
+        currentEcts = k.getPoints();
+        int aantal = k.getPoints();
+        System.out.println(aantal);
         ArrayList<Entry> yValues = new ArrayList<>();
         ArrayList<String> xValues = new ArrayList<>();
 
@@ -141,16 +206,16 @@ public class testFragment extends Fragment {
         //  http://www.materialui.co/colors
         ArrayList<Integer> colors = new ArrayList<>();
         if (currentEcts <10) {
-            colors.add(Color.rgb(244,81,30));
+            colors.add(Color.rgb(255,21,19));
         } else if (currentEcts < 40){
-            colors.add(Color.rgb(235,0,0));
+            colors.add(Color.rgb(205,21,19));
         } else if  (currentEcts < 50) {
-            colors.add(Color.rgb(253,216,53));
+            colors.add(Color.rgb(155,21,19));
         } else {
-            colors.add(Color.rgb(67,160,71));
+            colors.add(Color.rgb(67,21,19));
         }
 
-        colors.add(Color.rgb(255,0,0));
+        colors.add(Color.rgb(255, 0, 0));
 
 
         PieDataSet dataSet = new PieDataSet(yValues, "ECTS");
@@ -161,6 +226,7 @@ public class testFragment extends Fragment {
         mChart.setData(data);        // bind je dataset aan de chart.
         mChart.invalidate();        // Aanroepen van een volledige redraw
         Log.d("aantal =", "" + currentEcts);
+
     }
 }
 

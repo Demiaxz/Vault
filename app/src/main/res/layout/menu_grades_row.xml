@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:weightSum="1">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:useDefaultMargins="false"
+        android:layout_marginLeft="8dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:rowCount="1"
+        android:columnCount="5">
+
+        <TextView
+            android:id="@+id/subject_name"
+            android:layout_width="229dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="ICOMMH Assessment"
+            android:elegantTextHeight="false"
+            android:textSize="16dp"
+            android:layout_weight="0.25"
+            android:textIsSelectable="false"
+            android:layout_row="0"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="5.5"
+            android:id="@+id/subject_grade"
+            android:textSize="19dp"
+            android:layout_row="0"
+            android:layout_column="4" />
+    </GridLayout>
+
+
+</LinearLayout>
+

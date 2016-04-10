@@ -11,6 +11,7 @@ public class sharedPrefference {
     private static String USER_PIC = "userPic";
     private static String LOGINDATA = "loginData";
     private static String USERDATA = "userData";
+    private static String EC = "EC";
 
     public static SharedPreferences getVakData(Context c){
         return c.getSharedPreferences(PREF_DATA,0);

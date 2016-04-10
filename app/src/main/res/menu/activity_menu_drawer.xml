@@ -11,16 +11,4 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Grades" />
     </group>
-
-    <item android:title="Settings">
-        <menu>
-            <item
-                android:id="@+id/about"
-                android:title="About" />
-            <item
-                android:id="@+id/logout"
-                android:title="Logout" />
-        </menu>
-    </item>
-
 </menu>

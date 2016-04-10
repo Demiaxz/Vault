@@ -1,25 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#FFBB00"
     android:id="@+id/container">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/chart"
-        android:layout_gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp">
-    </com.github.mikephil.charting.charts.PieChart>
+    <!-- A CardView that contains a TextView -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
 
-    <ListView
-        android:id="@+id/my_list_view"
-        android:layout_width="fill_parent"
-        android:layout_height="199dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            card_view:cardCornerRadius="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="-2dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="EC information"
+                android:id="@+id/plad"
+                android:background="#15135e"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:padding="5dp"
+
+                android:textAlignment="center"
+                />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/chart"
+                android:layout_gravity="center"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true">
+            </com.github.mikephil.charting.charts.PieChart>
+        </android.support.v7.widget.CardView>
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px" />
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view2"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="163dp"
+            card_view:cardCornerRadius="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="0dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Personal information"
+                android:id="@+id/textView"
+                android:background="#15135e"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:padding="5dp"
+                android:textAlignment="center" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/menuPersonalListView"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="0dp"
+                android:choiceMode="none"
+                android:visibility="visible" />
+
+        </android.support.v7.widget.CardView>
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px" />
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view3"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="0dp"
+            android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Recent Grades"
+            android:id="@+id/textView2"
+            android:background="#15135e"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:visibility="visible" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/my_list_view"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:choiceMode="singleChoice"
+            android:visibility="visible"
+            android:layout_marginTop="32dp"
+            android:contextClickable="false" />
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>
