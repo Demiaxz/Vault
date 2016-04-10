@@ -41,7 +41,7 @@ public class stashGoods {
             Element cijferTabel = doc.select("tr").get(i); //Selecteer de eerste rij van de 15
             //System.out.println(cijferTabel.text()); // print wat er in deze rij staat
             for (int j = 0 ; j < 8 ; j++){ // In deze rij zijn er 7 kolommen die moeten worden weggeschreven.
-                //System.out.println(cijferTabel.getElementsByIndexEquals(j).toString());
+                System.out.println(cijferTabel.getElementsByIndexEquals(j).toString());
 
                 if (j == 0){ //datum
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
@@ -65,7 +65,7 @@ public class stashGoods {
                 else if (j == 3) { //toetstype
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     String datum = toetsdatum.getElementsByIndexEquals(0).text();
-                    //System.out.println(datum);
+                    System.out.println(datum);
                     toetstype = datum;
                 }
 
@@ -118,8 +118,15 @@ public class stashGoods {
             int ECBuffer = 0;
             int periodBuffer = 0;
             resultaat = resultaat.replace(",",".");
+            if ( resultaat.toLowerCase().equals("o")){
+                try {
 
-            if ( resultaat.toLowerCase().equals("v")){
+                    bufpo = bufpo + 0;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if ( resultaat.toLowerCase().equals("v")){
                 try {
                     String bufferEC = brain.getCourseListEC().getString(curcus);
                     setPoints((getPoints() + Integer.valueOf(bufferEC)));

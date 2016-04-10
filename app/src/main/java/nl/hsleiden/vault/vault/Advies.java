@@ -24,6 +24,10 @@ public class Advies {
 
         context.getSharedPreferences("userData",0).edit().putString("Advice",adviess).commit();
     }
+
+
+
+
 }
 
 
