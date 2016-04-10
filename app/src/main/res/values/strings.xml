@@ -36,8 +36,7 @@
     <string name="Course19">ISLP</string>
 
     <!-- hier staan de adviezen -->
-
-    <string name="advies1">Je hebt nog te weinig studiepunten bereikt om op de opleiding te mogen blijven. Doe beter je best.</string>
+    <string name="advies">Je hebt nog te weinig studiepunten bereikt om op de opleiding te mogen blijven. Doe beter je best.</string>
     <string name="advies2">Je hebt voldoende studiepunten om je opleiding te mogen vervolgen op de hogeschool. Je wordt nog niet bevorderd tot het tweede jaar.</string>
     <string name="advies3">Je hebt nu voldoende studiepunten om bevorderd te worden naar het tweede jaar.</string>
     <string name="advies4">Gefeliciteerd! Je hebt je propedeuse binnen. Veel succes bij de rest van je opleiding!</string>

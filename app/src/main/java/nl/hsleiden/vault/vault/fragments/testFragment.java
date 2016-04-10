@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.hsleiden.vault.vault.Advies;
 import nl.hsleiden.vault.vault.Database.Course;
 import nl.hsleiden.vault.vault.Database.PairValue;
 import nl.hsleiden.vault.vault.R;
@@ -124,6 +125,7 @@ public class testFragment extends Fragment {
         //period NOT
         //TODO: itemModels.add(key,value);
         // - - - - - - - - - - - - - - - - - - - - - - - - //
+        new Advies(getActivity());
         getActivity().getSharedPreferences("userData", 0).edit().putString("EC", String.valueOf(getGoods().getPoints())).commit();
 
         String name = getActivity().getSharedPreferences("userData", 0).getString("voornaam","Edit me!");
@@ -194,6 +196,7 @@ public class testFragment extends Fragment {
 
     public void setData(stashGoods k) {
         currentEcts = Integer.valueOf(getActivity().getSharedPreferences("userData", 0).getString("EC","0"));
+        Advies x = new Advies(getActivity());
         int aantal = k.getPoints();
         System.out.println(aantal);
         ArrayList<Entry> yValues = new ArrayList<>();

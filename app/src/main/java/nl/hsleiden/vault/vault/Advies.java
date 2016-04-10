@@ -1,26 +1,28 @@
 package nl.hsleiden.vault.vault;
 
-import nl.hsleiden.vault.vault.fragments.testFragment;
+import android.app.Activity;
 
 /**
  * Created by Kay on 10-4-2016.
  */
 public class Advies {
-    public String advies;
+    public String adviess = null;
+    public int currentEcts = 0;
 
-
-    public String advies(){
+    public Advies(Activity context){
+        currentEcts = Integer.valueOf(context.getSharedPreferences("userData",0).getString("EC","0"));
 
         if (currentEcts < 40){
-            advies = String.valueOf(R.string.advies1);
+            adviess = String.valueOf(R.string.advies1);
         } else if (currentEcts < 50){
-            advies = String.valueOf(R.string.advies2);
+            adviess = String.valueOf(R.string.advies2);
         } else if (currentEcts < 60){
-            advies = String.valueOf(R.string.advies3);
+            adviess = String.valueOf(R.string.advies3);
         } else{
-            advies = String.valueOf(R.string.advies4);
+            adviess = String.valueOf(R.string.advies4);
         }
-        return advies;
+
+        context.getSharedPreferences("userData",0).edit().putString("Advice",adviess).commit();
     }
 }
 
