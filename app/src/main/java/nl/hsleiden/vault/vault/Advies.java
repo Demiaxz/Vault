@@ -13,13 +13,13 @@ public class Advies {
         currentEcts = Integer.valueOf(context.getSharedPreferences("userData",0).getString("EC","0"));
 
         if (currentEcts < 40){
-            adviess = String.valueOf(R.string.advies1);
+            adviess = context.getResources().getString(R.string.advies1);
         } else if (currentEcts < 50){
-            adviess = String.valueOf(R.string.advies2);
+            adviess = context.getResources().getString(R.string.advies2);
         } else if (currentEcts < 60){
-            adviess = String.valueOf(R.string.advies3);
+            adviess = context.getResources().getString(R.string.advies3);
         } else{
-            adviess = String.valueOf(R.string.advies4);
+            adviess = context.getResources().getString(R.string.advies4);
         }
 
         context.getSharedPreferences("userData",0).edit().putString("Advice",adviess).commit();
