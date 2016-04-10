@@ -124,11 +124,15 @@ public class testFragment extends Fragment {
         //period NOT
         //TODO: itemModels.add(key,value);
         // - - - - - - - - - - - - - - - - - - - - - - - - //
+        // TODO: Maak een instantie van de adviesklasse en laat die in de shareprefference "Advice" vullen met het advies.
+        // Advice x = new Advice(getActivity() );
+
         getActivity().getSharedPreferences("userData", 0).edit().putString("EC", String.valueOf(getGoods().getPoints())).commit();
 
         String name = getActivity().getSharedPreferences("userData", 0).getString("voornaam","Edit me!");
         String classs = getActivity().getSharedPreferences("userData", 0).getString("Class","Edit me!");
         String period = getActivity().getSharedPreferences("userData", 0).getString("Period","Edit me!");
+
         String advice = getActivity().getSharedPreferences("userData", 0).getString("Advice","Unable to give advice.");
 
         personModels.add(new PairValue("Name",name));
