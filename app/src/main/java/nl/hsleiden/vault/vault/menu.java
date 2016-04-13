@@ -13,6 +13,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -26,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.jsoup.nodes.Document;
+
+import java.util.ArrayList;
 
 import nl.hsleiden.vault.vault.fetcher.DataFetch;
 import nl.hsleiden.vault.vault.fetcher.PicFetch;
@@ -49,6 +52,28 @@ public class menu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Vault - Dashboard");
+
+        //Aparte thread voor het updaten met check voor notificaties
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                stashGoods bufferK = getK();
+                ArrayList bufferList = bufferK.getNameList();
+                if (getSharedPreferences("userData", 0).getBoolean("update", false)) {
+                    //make a grade connection
+                    k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username", "0"), getIntent().getExtras().getString("password", "0"), getApplicationContext()).runAuth());
+                    if (k.getNameList().get(0) != bufferList.get(0)) {
+                        //dan heb je een nieuw cijfer
+                        if (getSharedPreferences("userData", 0).getBoolean("push", false)) {
+                            //check if there is a change
+                            // give a push notification
+                        }
+                    }
+                }
+                handler.postDelayed(this, 3600000); //now is every 1 hour
+            }
+        }, 3600000); //Every 3600000 ms (1 hour)
+
 
         //Welkomst bericht.
         if (getIntent().getExtras().getBoolean("loggedIn")){
