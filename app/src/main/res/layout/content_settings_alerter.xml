@@ -12,7 +12,7 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sync grades"
+            android:text="Sync grades  (Every hour)"
             android:id="@+id/checkBox"
             android:checked="false" />
 
@@ -24,6 +24,12 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp" >
 
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Push notification on new grade"
+            android:id="@+id/checkBox2"
+            android:checked="false" />
     </LinearLayout>
 
 </LinearLayout>
