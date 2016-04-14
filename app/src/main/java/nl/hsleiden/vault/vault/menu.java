@@ -3,6 +3,8 @@ package nl.hsleiden.vault.vault;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -25,6 +27,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 
 import org.jsoup.nodes.Document;
 
@@ -76,6 +82,18 @@ public class menu extends AppCompatActivity
                         if (getSharedPreferences("userData", 0).getBoolean("push", false)) {
                             //check if there is a change
                             // give a push notification
+                            Intent intent = new Intent();
+                            PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+                            Notification noti = new Notification.Builder(getApplicationContext())
+                                    .setTicker("Nieuw cijfer")
+                                    .setContentTitle("Nieuw cijfer")
+                                    .setContentText("Er is een nieuw cijfer beschikbaar")
+                                    .setSmallIcon(R.drawable.ic_launcher)
+                                    .setContentIntent(pIntent).getNotification();
+                            noti.flags=Notification.FLAG_AUTO_CANCEL;
+                            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            notificationManager.notify(0, noti);
+
                         }
                     }
                 }
