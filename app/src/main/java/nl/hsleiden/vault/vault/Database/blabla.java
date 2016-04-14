@@ -18,8 +18,6 @@ import java.util.List;
 public class blabla {
 }
 
-
-    
     // ALLES WAT JE NODGI HEBT OM EEN REQUEST TE MAKEN
     private void requestVideoSubjects(){
 
