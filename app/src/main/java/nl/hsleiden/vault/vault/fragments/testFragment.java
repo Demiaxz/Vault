@@ -137,7 +137,8 @@ public class testFragment extends Fragment {
 
         personModels.add(new PairValue("Name",name));
         personModels.add(new PairValue("Class",getActivity().getSharedPreferences("userData", 0).getString("Class","Edit me!")));
-        personModels.add(new PairValue("Period",getActivity().getSharedPreferences("userData", 0).getString("Period","Snickerbar")));
+        personModels.add(new PairValue("Period",getActivity().getSharedPreferences("userData", 0).getString("Period","" +
+                "Comming soon.")));
         personModels.add(new PairValue("Advice", advice));
 
         // Now give the listview( filled) back

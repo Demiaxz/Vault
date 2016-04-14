@@ -3,8 +3,9 @@ package nl.hsleiden.vault.vault;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.Notification;
 import android.app.NotificationManager;
-import android.content.Context;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -27,10 +28,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 
 import org.jsoup.nodes.Document;
 
@@ -60,7 +57,8 @@ public class menu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Vault - Dashboard");
-
+        //TODO: VERANDEREN MAARJA WELKE TIJD
+        getSharedPreferences("userData", 0).edit().putString("period", "FEATURE NOT YET IMPLEMENTED").commit();
 
         //Database
         final jsontodatabase databaseHandler = new jsontodatabase(getApplicationContext());
@@ -86,9 +84,9 @@ public class menu extends AppCompatActivity
                             PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
                             Notification noti = new Notification.Builder(getApplicationContext())
                                     .setTicker("Nieuw cijfer")
-                                    .setContentTitle("Nieuw cijfer")
+                                    .setContentTitle("HSL - VAULT")
                                     .setContentText("Er is een nieuw cijfer beschikbaar")
-                                    .setSmallIcon(R.drawable.ic_launcher)
+                                    .setSmallIcon(R.drawable.ic_priority)
                                     .setContentIntent(pIntent).getNotification();
                             noti.flags=Notification.FLAG_AUTO_CANCEL;
                             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -283,6 +281,7 @@ public class menu extends AppCompatActivity
         testFragment fragment = new testFragment(getK());
         fragmentTransaction.add(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();
+
     }
     private void replaceFragment (Fragment fragment){
         String backStateName =  fragment.getClass().getName();
