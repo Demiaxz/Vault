@@ -30,8 +30,10 @@ import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
+import nl.hsleiden.vault.vault.Database.DatabaseHelper;
 import nl.hsleiden.vault.vault.fetcher.DataFetch;
 import nl.hsleiden.vault.vault.fetcher.PicFetch;
+import nl.hsleiden.vault.vault.fragments.SettingsAlerter;
 import nl.hsleiden.vault.vault.fragments.gradesFragment;
 import nl.hsleiden.vault.vault.fragments.testFragment;
 
@@ -53,6 +55,10 @@ public class menu extends AppCompatActivity
         setSupportActionBar(toolbar);
         setTitle("Vault - Dashboard");
 
+
+        //Database
+        DatabaseHelper dbHelper = DatabaseHelper.getHelper(this);
+
         //Aparte thread voor het updaten met check voor notificaties
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -62,8 +68,10 @@ public class menu extends AppCompatActivity
                 if (getSharedPreferences("userData", 0).getBoolean("update", false)) {
                     //make a grade connection
                     k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username", "0"), getIntent().getExtras().getString("password", "0"), getApplicationContext()).runAuth());
+                    System.out.println("Synced");
                     if (k.getNameList().get(0) != bufferList.get(0)) {
                         //dan heb je een nieuw cijfer
+                        showDash();
                         if (getSharedPreferences("userData", 0).getBoolean("push", false)) {
                             //check if there is a change
                             // give a push notification
@@ -164,7 +172,7 @@ public class menu extends AppCompatActivity
             logOut();
         }
         if (id == R.id.settings) {
-            //TODO: settingspage
+            new SettingsAlerter().show(getFragmentManager(), "Settings");
         }
 
 

@@ -68,8 +68,6 @@ public class stashGoods {
                     //System.out.println(datum);
                     toetstype = datum;
                 }
-
-
                 else if (j == 4){ //weging
                     Element toetsdatum = cijferTabel.select("td").get(j); //Selecteer de eerste rij van de 15
                     String datum = toetsdatum.getElementsByIndexEquals(0).text();
