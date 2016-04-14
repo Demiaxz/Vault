@@ -100,6 +100,7 @@ public class stashGoods {
                 }
 
             }//end of j
+
             //System.out.println("Newest fetch : "+curcus+resultaat);
 //            String nameBuffer = curcus+" "+toetstype;
 //
@@ -113,6 +114,7 @@ public class stashGoods {
 //                }
 //            }
 //            nameList.add(nameBuffer);
+
             int ECBuffer = 0;
             int periodBuffer = 0;
             resultaat = resultaat.replace(",",".");

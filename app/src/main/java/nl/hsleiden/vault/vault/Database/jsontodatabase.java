@@ -9,6 +9,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class jsontodatabase {
     private Context c;
     public jsontodatabase(Context context){
         c = context;
+        requestVideoSubjects();
     }
     public Context getContext(){
         return c;
@@ -66,9 +69,9 @@ public class jsontodatabase {
 
         // For all the items we get in the return
         while (!rs.isAfterLast()) {
-            String course_id       = rs.getString(rs.getColumnIndex("ID"));
-            listedArray.add(course_id);
-            emptyVideoArray.add(course_id);
+            String course_name      = rs.getString(rs.getColumnIndex("name"));
+            listedArray.add(course_name);
+            emptyVideoArray.add(course_name);
             j++;
             rs.moveToNext();
         }
@@ -79,59 +82,46 @@ public class jsontodatabase {
         // iterate via "for loop"
         for (int i = 0; i < subjects.size(); i++) {
 
-            String ID       = String.valueOf(subjects.get(i).getID());
+            String Cor_name = String.valueOf(subjects.get(i).getName());
+            String Cor_ects = String.valueOf(subjects.get(i).getEcts());
+            String Cor_per = String.valueOf(subjects.get(i).getPeriod());
 
-
-            int vid_id_int = Integer.parseInt(ID);
-
-            String Cor_name  = String.valueOf(subjects.get(i).getName());
-            String Cor_ects      = String.valueOf(subjects.get(i).getEcts());
-            String Cor_grade     = String.valueOf(subjects.get(i).getGrade());
-            String Cor_period     = String.valueOf(subjects.get(i).getPeriod());
-            String Cor_testdate      = String.valueOf(subjects.get(i).getTestdate());
-            String Cor_description      = String.valueOf(subjects.get(i).getDescription());
-            String Cor_impact      = String.valueOf(subjects.get(i).getImpact());
-            String Cor_concept      = String.valueOf(subjects.get(i).getConcept());
-            String Cor_mutationdate      = String.valueOf(subjects.get(i).getMutationdate());
-            String Cor_core      = String.valueOf(subjects.get(i).getCore());
-
-
-
+            if (listedArray.contains(Cor_name)) {
+                System.out.println(Cor_name+" Allready in DB.");
+            } else {
 
                 // Set values to insert into the database
-            ContentValues values = new ContentValues();
-            values.put(DatabaseInfo.CourseColumn.ID, ID);
-            values.put(DatabaseInfo.CourseColumn.NAME, Cor_name);
-            values.put(DatabaseInfo.CourseColumn.ECTS, Cor_ects);
-            values.put(DatabaseInfo.CourseColumn.GRADE, Cor_grade);
-            values.put(DatabaseInfo.CourseColumn.PERIOD, Cor_period);
-            values.put(DatabaseInfo.CourseColumn.TESTDATE, Cor_testdate);
-            values.put(DatabaseInfo.CourseColumn.DESCRIPTION, Cor_description);
-            values.put(DatabaseInfo.CourseColumn.IMPACT, Cor_impact);
-            values.put(DatabaseInfo.CourseColumn.CONCEPT, Cor_concept);
-            values.put(DatabaseInfo.CourseColumn.MUTATIONDATE, Cor_mutationdate);
-            values.put(DatabaseInfo.CourseColumn.CORE, Cor_core);
+                ContentValues values = new ContentValues();
 
-            // The insert itself by the dbhelper
-            dbHelper.insert(DatabaseInfo.VideoTables.VIDEO, null, values);
+                values.put(DatabaseInfo.CourseColumn.NAME, Cor_name);
+                values.put(DatabaseInfo.CourseColumn.ECTS, Cor_ects);
+                values.put(DatabaseInfo.CourseColumn.PERIOD, Cor_per);
 
-            // Add the id to the array so we won't add it twice
-            listedArray.add(vid_id);
-            Log.d("MULAMETHOD-VIDEO", listedArray.toString());
+                // The insert itself by the dbhelper
+                dbHelper.insert(DatabaseInfo.CourseTables.COURSE, null, values);
 
+                // Add the id to the array so we won't add it twice
+                listedArray.add(Cor_name);
+                Log.d("Database", listedArray.toString());
+            }
         }
-        Log.d("MULAMETHOD-VIDEO", listedArray.toString());
-        Log.d("MULAMETHOD-VIDEOEMPTY", emptyVideoArray.toString());
-        // your code
-        for (String object: emptyVideoArray) {
-            dbHelper.deleteItem(DatabaseInfo.VideoTables.VIDEO, DatabaseInfo.VideoColumn.VID_ID, object);
-            emptyVideoArray.remove(object);
-        }
-        Log.d("MULAMETHOD-VIDEOEMPTY", emptyVideoArray.toString());
 
     }
 
     private void processRequestVideoError(VolleyError error){
-        Log.d("MULAMETHOD", "Video JSON request failed. Internet Connection Aviable? Webserver Aviable?");
+        Log.d("JSON", "FAILED TO FETCH");
+    }
+
+    //dit is een mooi begin voor het normaal laten werken van hoe het hoort te werken, maar het werkt niet, en het gaatn iet werken, zonder een revise van de hele app. Dit , we houden het er lekker bij. Laterrrr.
+    public void addJsonToDatabase(JSONObject gradeList, ArrayList<String> nameList){
+        for (String name : nameList){
+            try {
+                ContentValues values = new ContentValues();
+                values.put(DatabaseInfo.CourseColumn.NAME, (String) gradeList.getJSONObject(name).get(name.split(" ")[0]));
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 }

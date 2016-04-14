@@ -109,7 +109,7 @@ public class testFragment extends Fragment {
                 String mutatiedatum = element.get("mutatiedatum").toString();
                 String story = element.get("verhaal").toString();
 
-                courseModels.add(new Course(curcus, "3", resultaat , testdate, story));
+                courseModels.add(new Course(curcus, "3", resultaat , testdate));
 
             }
 

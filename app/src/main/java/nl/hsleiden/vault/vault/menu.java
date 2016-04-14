@@ -30,7 +30,7 @@ import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
-import nl.hsleiden.vault.vault.Database.DatabaseHelper;
+import nl.hsleiden.vault.vault.Database.jsontodatabase;
 import nl.hsleiden.vault.vault.fetcher.DataFetch;
 import nl.hsleiden.vault.vault.fetcher.PicFetch;
 import nl.hsleiden.vault.vault.fragments.SettingsAlerter;
@@ -57,7 +57,7 @@ public class menu extends AppCompatActivity
 
 
         //Database
-        DatabaseHelper dbHelper = DatabaseHelper.getHelper(this);
+        final jsontodatabase databaseHandler = new jsontodatabase(getApplicationContext());
 
         //Aparte thread voor het updaten met check voor notificaties
         final Handler handler = new Handler();
@@ -68,6 +68,7 @@ public class menu extends AppCompatActivity
                 if (getSharedPreferences("userData", 0).getBoolean("update", false)) {
                     //make a grade connection
                     k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username", "0"), getIntent().getExtras().getString("password", "0"), getApplicationContext()).runAuth());
+                    //databaseHandler.addJsonToDatabase(k.getGradeList(),k.getNameList());
                     System.out.println("Synced");
                     if (k.getNameList().get(0) != bufferList.get(0)) {
                         //dan heb je een nieuw cijfer
@@ -100,6 +101,7 @@ public class menu extends AppCompatActivity
         try {
             //create me a nested json with every grade you can fetch.
             k = new stashGoods(goods = new DataFetch(getIntent().getExtras().getString("username","0"),getIntent().getExtras().getString("password","0"),getApplicationContext()).runAuth());
+            //databaseHandler.addJsonToDatabase(k.getGradeList(),k.getNameList());
             //Object k has getGradeList, wich is a list of all the grades stored, with key = coursename and value = another json object with multiple key's.
             //we need to create a listview that uses this information.
             gradesTrick = new gradesFragment(getK());

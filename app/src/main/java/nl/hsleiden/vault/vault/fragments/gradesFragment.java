@@ -2,8 +2,6 @@ package nl.hsleiden.vault.vault.fragments;
 
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +65,7 @@ public class gradesFragment extends Fragment {
                 String mutatiedatum = element.get("mutatiedatum").toString();
                 String story = element.get("verhaal").toString();
 
-                courseModels.add(new Course(curcus, "3", resultaat , testdate, story));
+                courseModels.add(new Course(curcus, "3", resultaat , testdate));
 
             }
 

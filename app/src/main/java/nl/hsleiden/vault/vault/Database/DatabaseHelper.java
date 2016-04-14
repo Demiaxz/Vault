@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static SQLiteDatabase mSQLDB;
     private static DatabaseHelper mInstance;			// SINGLETON TRUC
     public static final String dbName = "Vault.db";	// Naam van je DB
-    public static final int dbVersion = 1;				// Versie nr van je db.
+    public static final int dbVersion = 2;				// Versie nr van je db.
 
     public DatabaseHelper(Context ctx) {				// De constructor doet niet veel meer dan ...
         super(ctx, dbName, null, dbVersion);			// … de super constructor aan te roepen.
@@ -42,17 +42,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         DatabaseInfo.CourseColumn.IMPACT + " TEXT," +
                         DatabaseInfo.CourseColumn.CONCEPT + " TEXT," +
                         DatabaseInfo.CourseColumn.MUTATIONDATE + " TEXT," +
-                        DatabaseInfo.CourseColumn.CORE + " TEXT;");
+                        DatabaseInfo.CourseColumn.CORE + " TEXT);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {	 // BIJ EEN UPDATE VAN DE DB (ID verhoogd)
-        db.execSQL("DROP TABLE IF EXISTS "+ DatabaseInfo.CourseTables.COURSE);	 // GOOI ALLES WEG
+        db.execSQL("DROP TABLE IF EXISTS "+ DatabaseInfo.CourseTables.COURSE+";");	 // GOOI ALLES WEG
         onCreate(db);									 // EN CREER HET OPNIEUW
     }
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version ){
-        super(context,name,factory, version);
+        super(context, name, factory, version);
     }
 
     public void insert(String table, String nullColumnHack, ContentValues values){
@@ -63,5 +63,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor query(String table, String[] columns, String selection, String[] selectArgs, String groupBy, String having, String orderBy){
         return mSQLDB.query(table, columns, selection, selectArgs, groupBy, having, orderBy);
     }
+
 
 }//end class
