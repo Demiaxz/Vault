@@ -33,11 +33,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + DatabaseInfo.CourseTables.COURSE + " (" +
                         BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        DatabaseInfo.CourseColumn.NAME + " TEXT," + DatabaseInfo.CourseColumn.ECTS + " TEXT," +
-                        DatabaseInfo.CourseColumn.PERIOD + " TEXT," + DatabaseInfo.CourseColumn.GRADE + " TEXT," +
-                        DatabaseInfo.CourseColumn.TESTDATE + " TEXT," + DatabaseInfo.CourseColumn.DESCRIPTION + " TEXT," +
-                        DatabaseInfo.CourseColumn.IMPACT + " TEXT," + DatabaseInfo.CourseColumn.CONCEPT + " TEXT," +
-                        DatabaseInfo.CourseColumn.MUTATIONDATE + " TEXT,");
+                        DatabaseInfo.CourseColumn.NAME + " TEXT," +
+                        DatabaseInfo.CourseColumn.ECTS + " TEXT," +
+                        DatabaseInfo.CourseColumn.PERIOD + " TEXT," +
+                        DatabaseInfo.CourseColumn.GRADE + " TEXT," +
+                        DatabaseInfo.CourseColumn.TESTDATE + " TEXT," +
+                        DatabaseInfo.CourseColumn.DESCRIPTION + " TEXT," +
+                        DatabaseInfo.CourseColumn.IMPACT + " TEXT," +
+                        DatabaseInfo.CourseColumn.CONCEPT + " TEXT," +
+                        DatabaseInfo.CourseColumn.MUTATIONDATE + " TEXT," +
+                        DatabaseInfo.CourseColumn.CORE + " TEXT;");
     }
 
     @Override

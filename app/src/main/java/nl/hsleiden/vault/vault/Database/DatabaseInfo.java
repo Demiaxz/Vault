@@ -19,6 +19,7 @@ public class DatabaseInfo {
         public static final String IMPACT = "impact"; // 30-70% or 1
         public static final String CONCEPT = "concept";
         public static final String MUTATIONDATE = "mutationdate";
+        public static final String CORE = "core";
 
     }
 
