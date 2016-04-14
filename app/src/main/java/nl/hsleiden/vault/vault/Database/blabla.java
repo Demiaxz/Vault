@@ -74,7 +74,7 @@ public class blabla {
 
             String vid_id       = String.valueOf(subjects.get(i).getVid_id());
 
-            // blk to int
+            // blk to intsadasdasdasdas
             int vid_id_int = Integer.parseInt(vid_id);
 
             String vid_title    = String.valueOf(subjects.get(i).getVid_title());
