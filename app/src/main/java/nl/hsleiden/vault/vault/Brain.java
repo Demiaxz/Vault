@@ -32,7 +32,10 @@ public class Brain {
         addCourseEC("IFIT","3");
         addCourseEC("IPOFIT","2");
         addCourseEC("IPOSE","2");
-        addCourseEC("IIPXXXX","10");
+        addCourseEC("IIPMEDT","10");
+        addCourseEC("IIPSEN","10");
+        addCourseEC("IIPBDAM","10");
+        addCourseEC("IIPFIT","10");
         addCourseEC("IPROV","3");
         addCourseEC("ICOMMP","3");
         addCourseEC("ISLP","1");

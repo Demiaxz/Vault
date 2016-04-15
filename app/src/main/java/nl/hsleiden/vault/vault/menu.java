@@ -124,6 +124,7 @@ public class menu extends AppCompatActivity
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("kankerzooi");
         }
 
 
