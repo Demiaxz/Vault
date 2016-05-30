@@ -129,7 +129,7 @@ public class testFragment extends Fragment {
         // Advice x = new Advice(getActivity() );
 
         new Advies(getActivity());
-		advies_v2
+
         getActivity().getSharedPreferences("userData", 0).edit().putString("EC", String.valueOf(getGoods().getPoints())).commit();
 
         String name = getActivity().getSharedPreferences("userData", 0).getString("voornaam","Edit me!");
